@@ -83,6 +83,20 @@ header {
     border: 2px solid;
 }
 
+@keyframes blink-animation {
+    50% {
+        opacity: 0.6;
+    }
+}
+
+.blinking {
+  animation: blink-animation 0.5s 4;
+}
+
+.grey-out {
+    opacity: 0.6;
+}
+
 
 
 
