@@ -1,0 +1,104 @@
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    text-align: center;
+    background-color: #DEC3BE;
+}
+
+header {
+    text-decoration: underline;
+    padding-top: 30px;
+}
+
+.container {
+    padding-top: 60px;
+    height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.game {
+    height: 60vh;
+    width: 60vh;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 3vh;
+}
+
+.box {
+    height: 18vh;
+    width: 18vh;
+    border-radius: 1rem;
+    border: none;
+    box-shadow: 0 0 1rem rgba(0,0,0,0.3);
+    background-color: #E1DEE3;
+    font-size: 10vmin;
+}
+
+.reset {
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    font-size: 1.25rem;
+    border-radius: 1rem;
+    background-color:dimgray;
+    color:#fff;
+}
+
+.newGame {
+     padding: 0.5rem 1rem 0.5rem 1rem;
+    font-size: 1.25rem;
+    border-radius: 1rem;
+    background-color:cornflowerblue;
+    color:#fff;
+}
+
+.reset, .newGame, .box:hover {
+    cursor: pointer;
+}
+
+#msg {
+    color:#250001;
+    font-size: 5vmin;
+}
+
+.hide {
+    display: none;
+}
+
+.msg-container {
+    padding-top: 300px;
+    padding-bottom: 300px;
+}
+
+.winner-highlight {
+    background-color:rgb(181, 205, 213);
+    padding: 0.25rem 0.75rem 0.25rem 0.75rem;
+    border-radius: 1rem;
+    border: 2px solid;
+}
+
+@keyframes blink-animation {
+    50% {
+        opacity: 0.6;
+    }
+}
+
+.blinking {
+  animation: blink-animation 0.5s 4;
+}
+
+.grey-out {
+    opacity: 0.6;
+}
+
+
+
+
+
+
