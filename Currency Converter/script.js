@@ -15,6 +15,7 @@ const inputmsg0 = `<p style = "font-size: 1.2rem" ><i>Click <b style = "color: g
 const inputmsg1 = `<p style = "font-size: 1.2rem"><i>The amount entered is  <b style="color: red">Invalid</b></i></p>`;
 const inputmsg2 = `<p style = "font-size: 1.2rem" ><i>Please enter the amount</i></p>`;
 const inputmsg3 = `<p style = "font-size: 1.2rem"><i>The Result (approx.) is already  <b style="color: blue">Displayed</b></i></p>`;
+const inputmsg4 = `<p style = "font-size: 1.2rem"><i>The Result (approx.) is  <b style="color: blue">Displayed</b></i></p>`;
 
 dropdowns.forEach(select => {
     for (currCode in countryList) {
@@ -43,14 +44,15 @@ const rounded = (number) => {
     let roundedNum;
     if (splitNum[0]!=0) {
         if (number.toString().includes("e")) {
-            roundedNum = Number(Number(number).toPrecision(5));
+            roundedNum = Number(Number(number).toPrecision(2));
         }else if (number.toString().includes(".")) {
-            roundedNum = Number(splitNum[0]).toLocaleString('en-US')+"."+splitNum[1].slice(0,4);
+            let decStr = (number-splitNum[0]).toFixed(2);
+            roundedNum = Number(splitNum[0]).toLocaleString('en-US')+decStr.slice(1);
         }else{
             roundedNum = number.toLocaleString('en-US');
         }
     }else {
-        roundedNum = Number(Number(number).toPrecision(5));
+        roundedNum = Number(Number(number).toPrecision(2));
     }
     return roundedNum;
 }
@@ -64,7 +66,7 @@ const convertCurr = () => {
     amount = rounded(amount*1);
     let dateParts = data["date"].split("-");
     let date = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
-    msg.innerHTML = `${amount} ${fromCurr.value} = ${finalAmountRounded} ${toCurr.value} .`
+    msg.innerHTML = `${amount} ${fromCurr.value} = ${finalAmountRounded} ${toCurr.value}`
                      + `<br> <p style = "font-size: 1rem; line-height: 2rem; text-align: right">(Updated on : ${date})</p>`;
 }
 
@@ -90,7 +92,7 @@ const checkInput = () => {
         btn.classList.remove("highlight");
         btn.disabled = true;
     }else { 
-        if (rounded(inputVal*1) == prevmsg[0] && fromCurr.value == prevmsg[1] && toCurr.value == prevmsg[4]) {
+        if (Number(rounded(inputVal*1).replaceAll(",","")) == Number(prevmsg[0].replaceAll(",","")) && fromCurr.value == prevmsg[1] && toCurr.value == prevmsg[4].slice(0,3)) {
             inputmsg.innerHTML = `${inputmsg3}` 
             btn.classList.remove("highlight");
             btn.disabled = true;
@@ -122,7 +124,7 @@ flip.addEventListener("click", () => {
 btn.addEventListener("click", (evt) => {
     evt.preventDefault();
     convertCurr();
-    inputmsg.innerHTML = "Enter a new Amount";
+    inputmsg.innerHTML = `${inputmsg4}`;
     btn.classList.remove("highlight");
     btn.disabled = true;
 })

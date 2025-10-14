@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Permanent+Marker&display=swap');
 
 * {
     margin: 0;
@@ -6,52 +7,73 @@
 
 body {
     text-align: center;
-    background-color: #DEC3BE;
+    background-color: #01031a;
 }
 
 header {
-    text-decoration: underline;
-    padding-top: 30px;
+    z-index: 3;
+    position: fixed; 
+    top: 0rem;
+    padding: 2.5rem 0 3rem 0;
+    width: 100%;
+    font-family: 'Permanent Marker', cursive;
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: aliceblue;
+}
+
+.pink-text {
+    color: #ec4899;
 }
 
 .container {
-    padding-top: 60px;
-    height: 70vh;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .game {
-    height: 60vh;
-    width: 60vh;
+    width: 70vh;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    gap: 3vh;
 }
 
 .box {
-    height: 18vh;
-    width: 18vh;
+    margin: 0.6rem;
+    height: 9rem;
+    width: 9rem;
     border-radius: 1rem;
     border: none;
-    box-shadow: 0 0 1rem rgba(0,0,0,0.3);
-    background-color: #E1DEE3;
+    background-color: #d5dfe2ee;
     font-size: 10vmin;
 }
 
+.box:enabled:hover {
+    margin: 0.475rem;
+    height: 9.25rem;
+    width: 9.25rem;
+    opacity: 75%;
+}
+
 .reset {
-    padding: 0.5rem 1rem 0.5rem 1rem;
+    padding: 0.5rem 2rem 0.5rem 2rem;
     font-size: 1.25rem;
-    border-radius: 1rem;
-    background-color:dimgray;
+    border-radius: 1.5rem;
+    background-color:rgb(190, 19, 107);
     color:#fff;
 }
 
+.resetGame {
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    font-size: 1.25rem;
+    border-radius: 1rem;
+    background-color:cornflowerblue;
+}
+
 .newGame {
-     padding: 0.5rem 1rem 0.5rem 1rem;
+    padding: 0.5rem 1rem 0.5rem 1rem;
     font-size: 1.25rem;
     border-radius: 1rem;
     background-color:cornflowerblue;
@@ -63,24 +85,12 @@ header {
 }
 
 #msg {
-    color:#250001;
+    color:#c1ebe3;
     font-size: 5vmin;
 }
 
 .hide {
     display: none;
-}
-
-.msg-container {
-    padding-top: 300px;
-    padding-bottom: 300px;
-}
-
-.winner-highlight {
-    background-color:rgb(181, 205, 213);
-    padding: 0.25rem 0.75rem 0.25rem 0.75rem;
-    border-radius: 1rem;
-    border: 2px solid;
 }
 
 @keyframes blink-animation {
@@ -90,11 +100,92 @@ header {
 }
 
 .blinking {
-  animation: blink-animation 0.5s 4;
+    animation: blink-animation 0.4s 8;
 }
 
 .grey-out {
     opacity: 0.6;
+}
+
+@media (width>640px) {
+    header {
+        background-color: #01031adf;
+        backdrop-filter: blur(10px);
+        -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+        mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+    }
+    .container {
+        margin: 10rem 0 2rem 0;
+    }
+    .msg-container {
+        padding: 20rem 0 10rem 0;
+    }
+    .reset {
+        margin-bottom: 4rem;
+    }
+    .winner-highlight {
+        background-color:rgb(181, 205, 213);
+        padding: 0.25rem 0.75rem 0.25rem 0.75rem;
+        border-radius: 1rem;
+        border: 0.2rem solid rgb(10, 91, 119);
+    }
+}
+
+@media (width< 640px) {
+    .container {
+        margin: 16rem 0 2rem 0;
+    }
+    .game {
+        width: 100%;
+    }
+    .box {
+        margin: 0.4rem;
+        height: 6rem;
+        width: 6rem;
+        font-size: 15vmin;
+    }
+    .box:enabled:hover {
+        margin: 0.275;
+        height: 6.25rem;
+        width: 6.25rem;
+        opacity: 75%;
+    }
+    .msg-container {
+        padding-top: 1rem;
+        background-color: #01031adf;
+        backdrop-filter: blur(10px);
+        -webkit-mask-image: linear-gradient(to bottom, black 75%, transparent 100%);
+        mask-image: linear-gradient(to bottom, black 75%, transparent 100%);
+        position: fixed;
+        z-index: 2;
+        top: 7rem;
+        width: 100%;
+    }
+    #msg {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        font-size: 1.5rem;
+        line-height: 2rem;
+    }
+    .big-text {
+        font-size: 2.5rem;
+    }
+    .winner-highlight {
+        background-color:rgb(181, 205, 213);
+        padding: 0.35rem 0.8rem 0.35rem 0.8rem;
+        border-radius: 1rem;
+        border: 0.2rem solid rgb(10, 91, 119);
+    }
+    .reset {
+        margin-bottom: 1rem;
+    }
+    .newGame {
+        display: none;
+    }
 }
 
 
