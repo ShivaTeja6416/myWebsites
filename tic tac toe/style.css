@@ -50,13 +50,6 @@ header {
     font-size: 10vmin;
 }
 
-.box:enabled:hover {
-    margin: 0.475rem;
-    height: 9.25rem;
-    width: 9.25rem;
-    opacity: 75%;
-}
-
 .reset {
     padding: 0.5rem 2rem 0.5rem 2rem;
     font-size: 1.25rem;
@@ -117,6 +110,12 @@ header {
     .container {
         margin: 10rem 0 2rem 0;
     }
+    .box:enabled:hover {
+        margin: 0.475rem;
+        height: 9.25rem;
+        width: 9.25rem;
+        opacity: 75%;
+    }
     .msg-container {
         padding: 20rem 0 10rem 0;
     }
@@ -143,12 +142,6 @@ header {
         height: 6rem;
         width: 6rem;
         font-size: 15vmin;
-    }
-    .box:enabled:hover {
-        margin: 0.275;
-        height: 6.25rem;
-        width: 6.25rem;
-        opacity: 75%;
     }
     .msg-container {
         padding-top: 1rem;
