@@ -26,7 +26,7 @@ buttons.forEach((button) => {
         button.disabled = true;
         checkWinner();
         if (count!=0) {
-            setTimeout(compTurn,300,event.target.id);
+            compTurn(event.target.id);
         }
     })
 })
@@ -42,14 +42,16 @@ let remBlinking = (pattern) => {
 
 let declareWinner = (winner,pattern) => {
     if (winner=="Draw") {
-        msg.innerHTML = `<span class="big-text">Draw🫱🏻‍🫲🏼</span>`;
-    } else {
-        msg.innerHTML = `<span class="big-text">Congratulations🎉</span> the winner is <span class="winner-highlight"><b>${winner}</b></span>`;
+        msg.innerHTML = `<span class="big-text">DRAW🫱🏻‍🫲🏼</span>`;
+    } else if (winner=="X") {
+        msg.innerHTML = `<span class="big-text" style="color: #e63030ff">YOU LOSE !</span>`;
+    }else {
+        msg.innerHTML = `<span class="big-text">Congratulations🎉</span><span class="big-text" style="color: green">YOU WON !</span>`;
     }
     remBlinking(pattern);
     msgContainer.classList.remove("hide");
     reset.innerHTML = "New Game";
-    reset.classList.add("resetGame");
+    reset.classList.add("newGame");
 }
 
 let addBlinking = (pattern) => {
@@ -69,9 +71,9 @@ let waitToDeclare = (winner,pattern) => {
 
 let checkWinner = () => {
     for (let pattern of winPatterns) {
-        let pos =  [buttons[pattern[0]].innerHTML,
-                   buttons[pattern[1]].innerHTML,
-                   buttons[pattern[2]].innerHTML]
+        let pos =  [buttons[pattern[0]].innerText,
+                   buttons[pattern[1]].innerText,
+                   buttons[pattern[2]].innerText]
         if (pos[0]===pos[1] && pos[1]===pos[2] && pos[2]!= "") {
             waitToDeclare(pos[0],pattern);
             break;
@@ -94,7 +96,7 @@ resetGame.forEach((btn) => {
     btn.addEventListener("click", () => {
         clearTimeout(timeout);
         count = 0;
-        reset.classList.remove("resetGame")
+        reset.classList.remove("newGame")
         reset.innerHTML = "Reset";
         msgContainer.classList.add("hide");
         enableAllBoxes();

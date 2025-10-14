@@ -58,13 +58,6 @@ header {
     color:#fff;
 }
 
-.resetGame {
-    padding: 0.5rem 1rem 0.5rem 1rem;
-    font-size: 1.25rem;
-    border-radius: 1rem;
-    background-color:cornflowerblue;
-}
-
 .newGame {
     padding: 0.5rem 1rem 0.5rem 1rem;
     font-size: 1.25rem;
@@ -73,7 +66,7 @@ header {
     color:#fff;
 }
 
-.reset, .newGame, .box:hover {
+.reset,.resetGame, .newGame, .box:hover {
     cursor: pointer;
 }
 
@@ -119,6 +112,10 @@ header {
     .msg-container {
         padding: 20rem 0 10rem 0;
     }
+    .big-text {
+        font-size: 3rem;
+        font-weight: 700;
+    }
     .reset {
         margin-bottom: 4rem;
     }
@@ -132,7 +129,7 @@ header {
 
 @media (width< 640px) {
     .container {
-        margin: 16rem 0 2rem 0;
+        margin: 14rem 0 2rem 0;
     }
     .game {
         width: 100%;
@@ -147,11 +144,11 @@ header {
         padding-top: 1rem;
         background-color: #01031adf;
         backdrop-filter: blur(10px);
-        -webkit-mask-image: linear-gradient(to bottom, black 75%, transparent 100%);
-        mask-image: linear-gradient(to bottom, black 75%, transparent 100%);
+        -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+        mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
         position: fixed;
         z-index: 2;
-        top: 7rem;
+        top: 8rem;
         width: 100%;
     }
     #msg {
@@ -176,7 +173,7 @@ header {
     .reset {
         margin-bottom: 1rem;
     }
-    .newGame {
+    .msg-container .newGame {
         display: none;
     }
 }
