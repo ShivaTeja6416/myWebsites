@@ -1,0 +1,275 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+#container {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    background-color: rgb(2, 1, 29);
+    display: flex;
+    align-items: center;
+}
+#border-box {
+    height: 88vh;
+    width: 88vh;
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 25%;
+    box-shadow: 0 0 1.3rem 1.4rem rgba(200, 200, 200, 0.827), 0 0 0 2.7rem rgb(105, 65, 15);
+    transition: box-shadow 2s ease;
+}
+#border-box.black {
+    box-shadow: 0 0 1.5rem 1.5rem rgba(0, 0, 0, 0.875), 0 0 0 2.7rem rgb(105, 65, 15);
+    transition: box-shadow 1s ease;
+}
+#top-wall {
+    position: fixed;
+    height: 4vh;
+    width: 88vh;
+    background: linear-gradient(to right, rgba(74, 0, 176, 0.6), rgba(74, 0, 176, 0.9), rgba(74, 0, 176, 0.6));
+    clip-path: polygon(0 0, 4vh 4vh, 84vh 4vh, 88vh 0);
+    display: flex;
+    justify-content: center;
+    gap: 4.2rem;
+    align-items: center;
+}
+#left-wall{
+    position: fixed;
+    height: 88vh;
+    width:4vh;
+    background: linear-gradient(to top, rgba(74, 0, 176, 0.9), rgba(74, 0, 176, 0.6), rgba(74, 0, 176, 0.9));
+    clip-path: polygon(0 0, 4vh 4vh, 4vh 84vh, 0 88vh);
+}
+#right-wall {
+    height: 88vh;
+    width:4vh;
+    background: linear-gradient(to top, rgba(73, 40, 2, 0.9), rgba(73, 40, 2, 0.6), rgba(73, 40, 2, 0.9));
+    clip-path: polygon(0 4vh, 0 84vh, 4vh 88vh, 4vh 0);
+}
+#bottom-wall {
+    position: fixed;
+    top: 90%;
+    height: 4vh;
+    width: 88vh;
+    background: linear-gradient(to left, rgba(73, 40, 2, 0.6), rgba(73, 40, 2, 0.9), rgba(73, 40, 2, 0.6));
+    clip-path: polygon(4vh 0, 84vh 0vh, 88vh 4vh, 0vh 4vh);
+}
+
+#top-wall span, #left-wall span {
+    color: rgb(0, 0, 0);
+    font-size: 1.5rem;
+}
+#right-wall span, #bottom-wall span {
+    color: rgb(219, 219, 219);
+    font-size: 1.5rem;
+}
+
+#game-board {
+    margin: 4vh 0 0 4vh;
+    height: 80vh;
+    width: 80vh;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.box {
+    z-index: 2;
+    height: 10vh;
+    width: 10vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.black-box {
+    background-color: rgb(106, 49, 2);
+    box-shadow: inset 0 0 0.2rem 0.3rem rgba(133, 76, 30, 0.674);
+    border-radius: 0.1rem;
+}
+.white-box {
+    background-color: rgb(245, 219, 188);
+    box-shadow: inset 0 0 0.2rem 0.3rem rgba(195, 181, 162, 0.7);
+    border-radius: 0.1rem;
+}
+
+.iconB {
+    z-index: 5;
+    font-size: 3.6rem;
+    color: rgb(0, 0, 0);
+    text-shadow: 0 0 15px rgb(255, 255, 255);
+}
+.iconW {
+    z-index: 5;
+    font-size: 3.6rem;
+    color: rgb(219, 219, 219);
+    text-shadow: 0 0 15px rgb(0, 0, 0);
+}
+.small-icon {
+    font-size: 2.7rem;
+}
+
+.black-box.glow {
+    z-index: 4;
+    box-shadow: inset 0 0 33px rgb(0, 234, 255);
+}
+.white-box.glow {
+    z-index: 4;
+    box-shadow: inset 0 0 30px rgb(8, 168, 183);
+}
+
+.black-box.grey {
+    z-index: 4;
+    box-shadow: inset 0 0 30px rgb(2, 112, 134);
+}
+.white-box.grey {
+    z-index: 4;
+    box-shadow: inset 0 0 25px rgba(1, 65, 71, 0.812);
+}
+
+.black-box .dot {
+    height: 1.4rem;
+    width: 1.4rem;
+    border-radius: 50%;
+    background-color: rgba(188, 137, 96, 0.533);
+}
+.white-box .dot {
+    height: 1.4rem;
+    width: 1.4rem;
+    border-radius: 50%;
+    background-color: rgba(150, 133, 106, 0.6);
+}
+
+.black-box.red-shade {
+    z-index: 3;
+    /* background-color: rgb(178, 1, 1); */
+    box-shadow: inset 0 0 70px rgb(255, 70, 70);
+    animation: pulse-black 2s ease-in-out 2s 12;
+}
+.white-box.red-shade {
+    z-index: 3;
+    box-shadow: inset 0 0 70px rgb(255, 70, 70);
+    animation: pulse-white 2s ease-in-out 2s 12;
+}
+
+.black-box.promotion-glow.kill-box {
+    z-index: 3;
+    box-shadow: inset 0 0 30px rgb(85, 255, 75);
+    animation: pulse-black 2s ease-in-out 0.5s infinite;
+}
+.white-box.promotion-glow.kill-box {
+    z-index: 3;
+    box-shadow: inset 0 0 30px rgb(75, 255, 60);
+    animation: pulse-white 2s ease-in-out 0.5s infinite;
+}
+@keyframes pulse-black {
+  40% {
+    /* background-color: rgba(237, 27, 27, 0.8); */
+    z-index: 4;
+    box-shadow: 0 0 10px rgba(237, 27, 27);
+    box-shadow: inset 0 0 70px rgb(255, 0, 0);
+  }
+}
+@keyframes pulse-white {
+  40% {
+    z-index: 4;
+    box-shadow: 0 0 20px rgb(255, 0, 0);
+    box-shadow: inset 0 0 70px rgb(255, 0, 0);
+  }
+}
+
+.black-box.promotion-glow {
+    z-index: 3;
+    box-shadow: inset 0 0 35px rgb(85, 255, 75);
+}
+.white-box.promotion-glow {
+    z-index: 3;
+    box-shadow: inset 0 0 35px rgb(75, 255, 60);
+}
+.castle-glow {
+    z-index: 3;
+    box-shadow: inset 0 0 50px rgb(226, 11, 254);
+}
+
+#promotion-modal {
+    position: fixed;
+    top: 4%;
+    left: 75%;
+    height: 23vh;
+    width: 37vh;
+    background-color: rgba(5, 136, 188, 0.907);
+    box-shadow: -4px 0px 16px rgb(95, 180, 232);
+    border-radius: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3.25vh;
+    align-items:first baseline;
+    padding: 2rem 2rem 2rem 2rem;
+    animation: shine 3s ease-in-out infinite;
+}
+.promotion-piece-boxes {
+    height: 10vh;
+    width: 10vh;
+    border-radius: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.promotion-piece-boxes.white {
+    background-color: rgb(237, 188, 128);
+    box-shadow: 0 0 10px rgba(97, 213, 255, 0.815);
+    animation: toggle-black 12s ease-in-out 1s infinite;
+}
+.promotion-piece-boxes.black {
+    background-color: rgb(147, 69, 6);
+    box-shadow: 0 0 10px rgba(97, 213, 255, 0.815);
+    animation: toggle-white 12s ease-in-out 1s infinite;
+}
+@keyframes toggle-black{
+    20%{
+        background-color: rgb(237, 188, 128);
+    }
+    30%{
+        background-color: rgb(147, 69, 6);
+    }
+    70%{
+        background-color: rgb(147, 69, 6);
+    }
+    80%{
+        background-color: rgb(237, 188, 128);
+    }
+}
+@keyframes toggle-white{
+    20%{
+        background-color: rgb(147, 69, 6);
+    }
+    30%{
+        background-color: rgb(237, 188, 128);
+    }
+    70%{
+        background-color: rgb(237, 188, 128);
+    }
+    80%{
+        background-color: rgb(147, 69, 6);
+    }
+}
+@keyframes shine {
+    25%{
+        box-shadow: 0px -4px 16px rgb(95, 180, 232);
+    }
+    50%{
+        box-shadow: 4px 0px 16px rgb(95, 180, 232);
+    }
+    75%{
+        box-shadow: 0px 4px 16px rgb(95, 180, 232);
+    }
+}
+
+
+.hide {
+    z-index: -1;
+    display: none;
+}
+
+

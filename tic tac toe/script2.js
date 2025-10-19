@@ -46,7 +46,7 @@ let declareWinner = (winner,pattern) => {
     } else if (winner=="X") {
         msg.innerHTML = `<span class="big-text" style="color: #e63030ff">YOU LOSE !</span>`;
     }else {
-        msg.innerHTML = `<span class="big-text">Congratulations🎉</span><span class="big-text" style="color: green">YOU WON !</span>`;
+        msg.innerHTML = `<span class="big-text">Congratulations🎉</span><br><span class="big-text" style="color: green">YOU WON !</span>`;
     }
     remBlinking(pattern);
     msgContainer.classList.remove("hide");

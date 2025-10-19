@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" 
+                integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" 
+                crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+<body>
+    <div id="container">
+        <div id="border-box">
+            <div id="top-wall">
+                <span>a</span>
+                <span>b</span>
+                <span>c</span>
+                <span>d</span>
+                <span>e</span>
+                <span>f</span>
+                <span>g</span>
+                <span>h</span>
+            </div>
+            <div id="left-wall"></div>
+            <div id="game-board"></div>
+            <div id="right-wall"></div>
+            <div id="bottom-wall"></div>
+        </div>
+    </div>
+
+    <div id="promotion-modal" class="hide"></div>
+
+    <script src="piece-selected-functions.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
