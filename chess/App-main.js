@@ -1,12 +1,33 @@
 
 const borderBox = document.querySelector("#border-box");
 const gameBoard = document.querySelector("#game-board");
-const modal = document.querySelector("#promotion-modal");
+const modal = document.querySelector(".promotion-modal");
+const whitesCaptured = document.querySelector(".left-panel .upper .whites-captured");
+const blacksCaptured = document.querySelector(".left-panel .lower .blacks-captured");
 
 const pieces = ["rook", "knight", "bishop", "queen", "king","pawn"];
+const alpha = ["a", "b", "c", "d"]
 
 // setup
-// Board-setup
+
+// Board-border setup
+const topWall = borderBox.querySelector("#top-wall");
+const bottomWall = borderBox.querySelector("#bottom-wall");
+const leftWall = borderBox.querySelector("#left-wall");
+const rightWall = borderBox.querySelector("#right-wall");
+const borderWalls = [topWall, bottomWall, leftWall, rightWall]
+for (i=0;i<8;i++) {
+    for (j=0;j<4;j++) {
+        const span = document.createElement("span");
+        if (j<2) {
+            span.innerText = `${String.fromCharCode(i+97)}`;
+        }else {
+            span.innerText = `${8-i}`;
+        }
+        borderWalls[j].appendChild(span);
+    }
+}
+// Board setup
 for (i=0;i<8;i++) {
     for (j=0;j<8;j++) {
         let box = document.createElement("div");
@@ -21,37 +42,76 @@ for (i=0;i<8;i++) {
     }
 }
 let boxes = document.querySelectorAll(".box");
-
 // Pieces-setup
 let piecesB =[]; //Black-pieces
 for (i=0;i<16;i++) {
     let piece = document.createElement("i");
     if (i<5) {
-        piece.classList.add("fa-solid", `fa-chess-${pieces[i]}`, "iconB", `${pieces[i]}`);
+        piece.classList.add("fa-solid", `fa-chess-${pieces[i]}`, "iconB");
         piece.name = pieces[i];
     }else if (i<8) {
-        piece.classList.add("fa-solid", `fa-chess-${pieces[7-i]}`, "iconB", `${pieces[7-i]}`);
+        piece.classList.add("fa-solid", `fa-chess-${pieces[7-i]}`, "iconB");
         piece.name = pieces[7-i];
     }else {
-        piece.classList.add("fa-solid", `fa-chess-${pieces[5]}`, "iconB", `${pieces[5]}`, "small-icon");
+        piece.classList.add("fa-solid", `fa-chess-${pieces[5]}`, "iconB", "small-icon");
         piece.name = pieces[5];
     }
+    piece.color = "black";
     piecesB.push(piece);
 }
 let piecesW =[]; //White-pieces
 for (i=0;i<16;i++) {
     let piece = document.createElement("i");
     if (i<5) {
-        piece.classList.add("fa-solid", `fa-chess-${pieces[i]}`, "iconW", `${pieces[i]}`);
+        piece.classList.add("fa-solid", `fa-chess-${pieces[i]}`, "iconW");
         piece.name = pieces[i];
     }else if (i<8) {
-        piece.classList.add("fa-solid", `fa-chess-${pieces[7-i]}`, "iconW", `${pieces[7-i]}`);
+        piece.classList.add("fa-solid", `fa-chess-${pieces[7-i]}`, "iconW");
         piece.name = pieces[7-i];
     }else {
-        piece.classList.add("fa-solid", `fa-chess-${pieces[5]}`, "iconW", `${pieces[5]}`, "small-icon");
+        piece.classList.add("fa-solid", `fa-chess-${pieces[5]}`, "iconW", "small-icon");
         piece.name = pieces[5];
     }
+    piece.color = "white";
     piecesW.push(piece);
+}
+// Captured pieces box Setup
+for (i=0;i<5;i++) {  //White-pieces
+    const boxW = document.createElement("div");
+    const countBoxW = document.createElement("div");
+    countBoxW.classList.add("count-box-whites");
+    countBoxW.value = 0
+    countBoxW.innerText = countBoxW.value;
+    const pieceW = document.createElement("i");
+
+    const boxB = document.createElement("div");
+    const countBoxB = document.createElement("div");
+    countBoxB.classList.add("count-box-blacks");
+    countBoxB.value = 0
+    countBoxB.innerText = countBoxB.value;
+    const pieceB = document.createElement("i");
+    if (i<4) {
+        pieceW.classList.add("fa-solid", `fa-chess-${pieces[i]}`, "iconW");
+        boxW.classList.add(`captured-${pieces[i]}-box`);
+        countBoxW.name = pieces[i];
+
+        pieceB.classList.add("fa-solid", `fa-chess-${pieces[i]}`, "iconB");
+        boxB.classList.add(`captured-${pieces[i]}-box`);
+        countBoxB.name = pieces[i];
+    }else if (i==4) {
+        pieceW.classList.add("fa-solid", `fa-chess-${pieces[5]}`, "iconW", "small-icon");
+        boxW.classList.add("captured-pawn-box");
+        countBoxW.name = pieces[5];
+
+        pieceB.classList.add("fa-solid", `fa-chess-${pieces[5]}`, "iconB", "small-icon");
+        boxB.classList.add("captured-pawn-box");
+        countBoxB.name = pieces[5];
+    }
+    whitesCaptured.appendChild(boxW);
+    boxW.append(pieceW,countBoxW);
+
+    blacksCaptured.appendChild(boxB);
+    boxB.append(pieceB,countBoxB);
 }
 
 // Re-arrange all the pieces
@@ -140,28 +200,42 @@ const getWhitePieceBoxes = () => {
     return activeBoxes;
 }
 
+const updateKillCount = (killedPiece) => {
+    if (killedPiece.color=="white") {
+        countBoxes = document.querySelectorAll(".count-box-whites");
+    }else {
+        countBoxes = document.querySelectorAll(".count-box-blacks");
+    }
+    countBoxes.forEach(countBox => {
+        if (countBox.name==killedPiece.name) {
+            countBox.value++;
+            countBox.innerText = countBox.value;
+        }
+    })
+}
+
 const getPieceMoves = (box) => {
     const piece = box.querySelector("i");
     let allBoxes = [];
-    if (piece.classList[3]=="pawn") {
+    if (piece.name=="pawn") {
         allBoxes = pawnMoves(box.id);
     }
-    if (piece.classList[3]=="rook") {
+    if (piece.name=="rook") {
         allBoxes = rookMoves(box.id);
     }
-    if (piece.classList[3]=="knight") {
+    if (piece.name=="knight") {
         allBoxes = knightMoves(box.id);
     }
-    if (piece.classList[3]=="bishop") {
+    if (piece.name=="bishop") {
         allBoxes = bishopMoves(box.id);
     }
-    if (piece.classList[3]=="queen") {
+    if (piece.name=="queen") {
         let rookBoxes = rookMoves(box.id);
         let bishopBoxes = bishopMoves(box.id);
         allBoxes.push(rookBoxes[0].concat(bishopBoxes[0]));
         allBoxes.push(rookBoxes[1].concat(bishopBoxes[1]));
     }
-    if (piece.classList[3]=="king") {
+    if (piece.name=="king") {
         allBoxes = kingMoves(box.id);
     }
     return allBoxes;
@@ -179,7 +253,7 @@ const getPieceMoves = (box) => {
 //     })
 // }
 
-const enableMoves = (box) => {
+const enableMoves = (box,activeBoxes) => {
     remDotsAndShade();
     if (movesController) {
         movesController.abort();
@@ -189,7 +263,7 @@ const enableMoves = (box) => {
     let placeBoxes = allBoxes[0];
     let killBoxes = allBoxes[1];
     let castleBoxes;
-    if (piece.classList.contains("king")) {
+    if (piece.name == "king") {
         castleBoxes = allBoxes[2];
     }else {
         castleBoxes = [];
@@ -197,15 +271,15 @@ const enableMoves = (box) => {
     addDotsAndShade(box, placeBoxes, killBoxes);
     movesController = new AbortController();
     placeBoxes.forEach(placeBox => {
-        placeBox.addEventListener("click",evt => {movePiece(box,piece,placeBox)}, {signal: movesController.signal});
+        placeBox.addEventListener("click",evt => {movePiece(activeBoxes,box,piece,placeBox)}, {signal: movesController.signal});
     })
     killBoxes.forEach(killBox => {
         let killPiece = killBox.querySelector("i")
-        killBox.addEventListener("click",evt => {movePiece(box,piece,killBox,killPiece)}, {signal: movesController.signal});
+        killBox.addEventListener("click",evt => {movePiece(activeBoxes,box,piece,killBox,killPiece)}, {signal: movesController.signal});
     })
     castleBoxes.forEach(castleBox => {
         castleBox.classList.add("castle-glow");
-        castleBox.addEventListener("click",evt => {castle(castleBox)}, {signal: movesController.signal});
+        castleBox.addEventListener("click",evt => {castle(activeBoxes,castleBox)}, {signal: movesController.signal});
     })
 }
 
@@ -219,13 +293,14 @@ const selectPiece = ()=> {
     }
     selectionController = new AbortController();
     activeBoxes.forEach(box => {
-        box.addEventListener("click",(evt) => {enableMoves(box)}, {signal: selectionController.signal});
+        box.classList.add("active");
+        box.addEventListener("click",(evt) => {enableMoves(box,activeBoxes)}, {signal: selectionController.signal});
     })
 }
 selectPiece();
 
 const promotionModal = (newBox,piece) => {
-    modal.classList.remove("hide");
+    modal.classList.add("active");
     newBox.classList.add("promotion-glow");
     for (i=0;i<4;i++) {
         let box = document.createElement("div");
@@ -236,9 +311,13 @@ const promotionModal = (newBox,piece) => {
             box.classList.add("promotion-piece-boxes", "white");
         }
         if (whitesTurn) {
-            promotionPiece.classList.add("fa-solid", `fa-chess-${pieces[i]}`, "iconW", `${pieces[i]}`);
+            promotionPiece.classList.add("fa-solid", `fa-chess-${pieces[i]}`, "iconW");
+            promotionPiece.name = pieces[i];
+            promotionPiece.color = "white";
         }else {
-            promotionPiece.classList.add("fa-solid", `fa-chess-${pieces[i]}`, "iconB", `${pieces[i]}`);
+            promotionPiece.classList.add("fa-solid", `fa-chess-${pieces[i]}`, "iconB");
+            promotionPiece.name = pieces[i];
+            promotionPiece.color = "black";
         }
         box.appendChild(promotionPiece);
         modal.appendChild(box);
@@ -250,7 +329,7 @@ const promotionModal = (newBox,piece) => {
             piece.remove();
             newBox.appendChild(selectedPiece);
             remDotsAndShade();
-            modal.classList.add("hide");
+            modal.classList.remove("active");
             modal.replaceChildren();
             whitesTurn = !whitesTurn;
             if (!whitesTurn) {
@@ -263,7 +342,10 @@ const promotionModal = (newBox,piece) => {
     })
 }
 
-const movePiece = (box,piece,newBox,killPiece) => {
+const movePiece = (activeBoxes,box,piece,newBox,killPiece) => {
+    activeBoxes.forEach(box => {
+        box.classList.remove("active");
+    })
     if (box.id=="11") {
         rookLBDisturbed = true;
     }else if (box.id=="18") {
@@ -280,6 +362,7 @@ const movePiece = (box,piece,newBox,killPiece) => {
 
     if (killPiece) {
         killPiece.remove();
+        updateKillCount(killPiece);
     }
     newBox.appendChild(piece);
     selectionController.abort();
@@ -299,7 +382,10 @@ const movePiece = (box,piece,newBox,killPiece) => {
     }2
 }
 
-const castle = (box) => {
+const castle = (activeBoxes, box) => {
+    activeBoxes.forEach(box => {
+        box.classList.remove("active");
+    })
     if (box.id=="87") {
         box.appendChild(piecesW[4]);
         let rookBox = document.getElementById("86");

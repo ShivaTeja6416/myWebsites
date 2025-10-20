@@ -5,7 +5,7 @@ const pawnMoves = (id) => {
     placeBoxes = [], killBoxes = [];
     let row = +id[0], col = +id[1];
     let n;
-    if (piece.classList[2]=="iconB") {
+    if (piece.color=="black") {
         if (row==2) {
             n=2;
         }else if (row>2 && row<8) {
@@ -29,7 +29,7 @@ const pawnMoves = (id) => {
                     let newBox = document.getElementById(`${newBoxId}`);
                     let newPiece = newBox.querySelector("i");
                     if (newPiece) {
-                        if (newPiece.classList[2]=="iconW") {
+                        if (newPiece.color=="white") {
                             killBoxes.push(newBox);
                         }
                     }
@@ -40,7 +40,7 @@ const pawnMoves = (id) => {
             promotionBoxes(placeBoxes, killBoxes);
         }
     }
-    if (piece.classList[2]=="iconW") {
+    if (piece.color=="white") {
         if (row==7) {
             n=2;
         }else if (row>1 && row<7) {
@@ -64,7 +64,7 @@ const pawnMoves = (id) => {
                     let newBox = document.getElementById(`${newBoxId}`);
                     let newPiece = newBox.querySelector("i");
                     if (newPiece) {
-                        if (newPiece.classList[2]=="iconB") {
+                        if (newPiece.color=="black") {
                             killBoxes.push(newBox);
                         }
                     }
@@ -88,7 +88,7 @@ const rookMoves = (id) => {
             let newBox = document.getElementById(`${newBoxId}`);
             let newPiece = newBox.querySelector("i");
             if (newPiece) {
-                if (newPiece.classList[2]!=piece.classList[2]) {
+                if (newPiece.color!=piece.color) {
                     killBoxes.push(newBox);
                 }
                 break
@@ -100,7 +100,7 @@ const rookMoves = (id) => {
             let newBox = document.getElementById(`${newBoxId}`);
             let newPiece = newBox.querySelector("i");
             if (newPiece) {
-                if (newPiece.classList[2]!=piece.classList[2]) {
+                if (newPiece.color!=piece.color) {
                     killBoxes.push(newBox);
                 }
                 break
@@ -112,7 +112,7 @@ const rookMoves = (id) => {
             let newBox = document.getElementById(`${newBoxId}`);
             let newPiece = newBox.querySelector("i");
             if (newPiece) {
-                if (newPiece.classList[2]!=piece.classList[2]) {
+                if (newPiece.color!=piece.color) {
                     killBoxes.push(newBox);
                 }
                 break
@@ -124,7 +124,7 @@ const rookMoves = (id) => {
             let newBox = document.getElementById(`${newBoxId}`);
             let newPiece = newBox.querySelector("i");
             if (newPiece) {
-                if (newPiece.classList[2]!=piece.classList[2]) {
+                if (newPiece.color!=piece.color) {
                     killBoxes.push(newBox);
                 }
                 break
@@ -148,7 +148,7 @@ const knightMoves = (id) => {
                     let newBox = document.getElementById(`${newBoxId}`);
                     let newPiece = newBox.querySelector("i");
                     if (newPiece) {
-                        if (newPiece.classList[2]!=piece.classList[2]) {
+                        if (newPiece.color!=piece.color) {
                             killBoxes.push(newBox);
                         }
                     }else {
@@ -171,7 +171,7 @@ const bishopMoves = (id) => {
             let newBox = document.getElementById(`${newBoxId}`);
             let newPiece = newBox.querySelector("i");
             if (newPiece) {
-                if (newPiece.classList[2]!=piece.classList[2]) {
+                if (newPiece.color!=piece.color) {
                     killBoxes.push(newBox);
                 }
                 break
@@ -185,7 +185,7 @@ const bishopMoves = (id) => {
             let newBox = document.getElementById(`${newBoxId}`);
             let newPiece = newBox.querySelector("i");
             if (newPiece) {
-                if (newPiece.classList[2]!=piece.classList[2]) {
+                if (newPiece.color!=piece.color) {
                     killBoxes.push(newBox);
                 }
                 break
@@ -199,7 +199,7 @@ const bishopMoves = (id) => {
             let newBox = document.getElementById(`${newBoxId}`);
             let newPiece = newBox.querySelector("i");
             if (newPiece) {
-                if (newPiece.classList[2]!=piece.classList[2]) {
+                if (newPiece.color!=piece.color) {
                     killBoxes.push(newBox);
                 }
                 break
@@ -213,7 +213,7 @@ const bishopMoves = (id) => {
             let newBox = document.getElementById(`${newBoxId}`);
             let newPiece = newBox.querySelector("i");
             if (newPiece) {
-                if (newPiece.classList[2]!=piece.classList[2]) {
+                if (newPiece.color!=piece.color) {
                     killBoxes.push(newBox);
                 }
                 break
@@ -238,7 +238,7 @@ const kingMoves = (id) => {
                         let newBox = document.getElementById(`${newBoxId}`);
                         let newPiece = newBox.querySelector("i");
                         if (newPiece) {
-                            if (newPiece.classList[2]!=piece.classList[2]) {
+                            if (newPiece.color!=piece.color) {
                                 killBoxes.push(newBox);
                             }
                         }else {
