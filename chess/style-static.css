@@ -5,30 +5,32 @@
 }
 body {
     background-color: #525f5f;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 #container {
-    position: fixed;
     height: 100vh;
-    width: 100vw;
     display: flex;
 }
 
 
 /* Game-board styling */
 #border-box {
-    position: absolute;
+    position: fixed;
     left: 42.5vh;
     height: 88vh;
     width: 88vh;
     display: flex;
     flex-wrap: wrap;
-    margin-left: 3rem;
+    margin-left: 6vh;
     margin-top: 6vh;
-    border-radius: 0.15rem;
-    box-shadow: 0 0 1.8rem 2.6rem rgba(220, 220, 220), 0 0 0.1rem 2.9rem rgb(0, 91, 155);
+    border-radius: 0.2vh;
+    background-color: rgb(210, 210, 210);
+    box-shadow: 0 0 1.8rem 2.6rem rgba(210, 210, 210), 0 0 0.1rem 2.9rem rgb(0, 91, 155);
     transition: box-shadow 0.8s ease-in-out;
 }
 #border-box.black {
+    background-color: rgb(0, 0, 0);
     box-shadow: 0 0 2rem 3rem rgb(0, 0, 0), 0 0 0.1rem 2.9rem rgb(125, 205, 255);
     transition: box-shadow 0.8s ease-in-out;
 }
@@ -46,7 +48,7 @@ body {
     top: -4vh;
     height: 88vh;
     width:4vh;
-    background: linear-gradient(to top, rgba(220, 170, 80, 0.9), rgba(251, 218, 165, 0.7), rgb(220, 170, 80, 0.9));
+    background: linear-gradient(to top, rgba(220, 170, 80, 0.9), rgba(255, 218, 166, 0.7), rgb(220, 170, 80, 0.9));
     clip-path: polygon(0 0, 4vh 4vh, 4vh 84vh, 0 88vh);
     display: flex;
     flex-direction: column;
@@ -59,7 +61,7 @@ body {
     top: -4vh;
     height: 88vh;
     width:4vh;
-    background: linear-gradient(to top, rgba(120, 70, 4, 0.9), rgba(73, 40, 2, 0.7), rgba(120, 70, 4, 0.9));
+    background: linear-gradient(to top, rgba(129, 74, 2, 0.9), rgba(73, 40, 2, 0.7), rgba(120, 70, 4, 0.9));
     clip-path: polygon(0 4vh, 0 84vh, 4vh 88vh, 4vh 0);
     display: flex;
     flex-direction: column;
@@ -123,25 +125,23 @@ body {
 
 .black-box {
     background-color: rgb(106, 49, 2);
-    box-shadow: inset 0 0 0.2rem 0.3rem rgba(133, 76, 30, 0.674);
-    border-radius: 0.1rem;
+    box-shadow: inset 0 0 0.2rem 0.3rem rgba(133, 76, 30, 0.7);
+    border-radius: 0.3vh;
 }
 .white-box {
     background-color: rgb(245, 219, 188);
     box-shadow: inset 0 0 0.2rem 0.3rem rgba(195, 181, 162, 0.7);
-    border-radius: 0.1rem;
+    border-radius: 0.3vh;
 }
 
 .iconB {
-    z-index: 5;
     font-size: 3.6rem;
     color: rgb(0, 0, 0);
     text-shadow: 0 0 15px rgb(255, 255, 255);
 }
 .iconW {
-    z-index: 5;
     font-size: 3.6rem;
-    color: rgb(219, 219, 219);
+    color: rgb(220, 220, 220);
     text-shadow: 0 0 15px rgb(0, 0, 0);
 }
 .small-icon {
@@ -151,6 +151,7 @@ body {
 
 /* Left-panel-styling */
 .left-panel {
+    position: fixed;
     height: 96vh;
     width: 42.6vh;
     align-self: center;
@@ -162,6 +163,7 @@ body {
 }
 
 .left-panel .upper,.lower {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -183,7 +185,7 @@ body {
     z-index: 5;
     height: 47vh;
     width: 40vh;
-    background-color: rgba(225, 225, 225);;
+    background-color: rgb(200, 200, 200);;
     border-radius: 0.8rem;
     display: flex;
     flex-wrap: wrap;
@@ -241,12 +243,29 @@ body {
     gap: 0.8rem;
 }
 
+.whites-captured-box .iconW {
+    color: rgba(220, 220, 220, 0.7);
+    text-shadow: none;
+}
+.whites-captured-box .iconW.on {
+    color: rgb(220, 220, 220);
+    text-shadow: 0 0 0.7rem rgba(220, 220, 220, 0.8);
+}
+.blacks-captured-box .iconB {
+    color: rgba(0, 0, 0, 0.7);
+    text-shadow: none;
+}
+.blacks-captured-box .iconB.on {
+    color: rgb(0, 0, 0);
+    text-shadow: 0 0 0.7rem rgba(0, 0, 0,0.8);
+}
+
 .count-box-whites {
     position: relative;
     right: 0.9rem;
     height: 2.2rem;
     width: 2.5rem;
-    background-color: rgb(90, 90, 90);
+    background-color: rgb(128, 128, 128);
     color: rgb(225, 225, 225);
     font-size: 1.6rem;
     font-weight: 600;
@@ -288,11 +307,11 @@ body {
 .left-panel-upper-text {
     z-index: 6;
     position: absolute;
-    top: 20rem;
-    color:  rgba(0, 0, 0, 0.7);
+    top: 19rem;
+    color:  rgba(30, 30, 30);
     font-size: 1.3rem;
     font-weight: 600;
-    background-color: rgb(155, 155, 155);
+    background-color: rgb(160, 160, 160);
     padding: 0.5rem 1rem 0.5rem 1rem;
     border-radius: 0.9rem;
     word-spacing: 0.4rem;
@@ -310,11 +329,11 @@ body {
 .left-panel-lower-text {
     z-index: 6;
     position: absolute;
-    top: 90vh;
-    color: rgba(225, 225, 225);
+    top: 19rem;
+    color: rgba(200, 200, 200);
     font-size: 1.3rem;
     font-weight: 600;
-    background-color: rgb(144, 144, 144);
+    background-color: rgb(110, 110, 110);
     padding: 0.5rem 1rem 0.5rem 1rem;
     border-radius: 0.9rem;
     word-spacing: 0.4rem;
@@ -333,14 +352,14 @@ body {
 
 /* Right-panel styling */
 .right-panel {
-    position:absolute;
+    position:fixed;
     z-index: 10;
     align-self: center;
-    bottom: 1vh;
-    right: 0;
-    height: 98vh;
-    width: 51vh;
-    background-color: #001020d5;
+    bottom: 0.5vh;
+    right: 0.5vh;
+    height: 99vh;
+    width: 49vh;
+    background-color: #001528e1;
     border-radius: 0.5rem;
     display: flex;
     flex-direction: column;
@@ -350,38 +369,75 @@ body {
 .title {
     z-index: 22;
     width:20rem;
+    margin-top: 0.5rem;
     font-family: 'Lobster', cursive;
-    font-size: 4rem;
+    font-size: 3.5rem;
     letter-spacing: 0.8rem;
-    color: rgb(160, 160, 160);
+    color: rgb(180, 180, 180);
     text-align: center;
     text-shadow: 
+        0px 0px 1px rgb(180, 180, 180),
         1px 1px 1px rgb(160, 160, 160),
         2px 2px 1px rgb(140, 140, 140),
         3px 3px 1px rgb(120, 120, 120),
         4px 4px 1px rgb(100, 100, 100),
         5px 5px 1px rgb(80, 80, 80);
-    border-bottom: 2px solid rgb(160, 160, 160);
+    border-bottom: 4px solid rgb(160, 160, 160);
 }
 
-.promotion-modal {
-    opacity: 0;
-    transform: scale(0.95);
-    transition: opacity 1s ease, transform 1s ease;
+.right-panel-content {
+    z-index: 11;
+    position: fixed;
+    bottom: 2vh;
+    height: 60.5vh;
+    width: 46vh;
+    border-radius: 0.5rem;
+    background-color: #264058;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: height 1s ease;
 }
-.promotion-modal.active{
-    position: absolute;
-    top: 13vh;
-    z-index: 15;
-    height: 23vh;
-    width: 37vh;
-    background-color: rgba(124, 230, 120, 0.932);
-    box-shadow: 2px 4px 16px rgb(109, 200, 112);
+.right-panel-content.promotion {
+    height: 85vh;
+    transition: height 0.8s ease;
+}
+.promotion-modal {
+    z-index: 12;
+    margin-top: 1vh;
+    height: 21.7vh;
+    width: 34.2vh;
+    background-color: rgba(124, 230, 120, 0.5);
     border-radius: 1rem;
     display: flex;
     flex-wrap: wrap;
-    gap: 3.4vh;
-    padding: 1.5rem;
-    opacity: 1;
+    gap: 1rem;
+    padding: 1rem;
+    transform: scale(0.9);
+    transition: transform 2s ease, background-color 2s ease 1s;
+}
+.right-panel-content.promotion .promotion-modal{
+    background-color: rgb(124, 230, 120);
+    box-shadow: 2px 4px 16px rgb(109, 200, 112);
     transform: scale(1);
+    transition: transform 1s ease, background-color 1s ease ;
+}
+
+.pocket {
+    position: absolute;
+    z-index: 15;
+    bottom: 20vh;
+    height: 37vh;
+    width: 20rem;
+    background-color: #264058;
+    border-top: 4px solid rgb(160, 160, 160);
+}
+.contents {
+    position: absolute;
+    bottom: 0vh;
+    z-index: 16;
+    height: 57vh;
+    width: 100%;
+    /* background-color: rgba(58, 91, 149, 0.5); */
+    border-radius: 0.5rem;
 }

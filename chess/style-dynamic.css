@@ -130,6 +130,12 @@
     }
 }
 
-.promotion-piece-boxes .fa-solid, .box.active, .box.active .fa-solid:hover{
+.box.active, .box.active .fa-solid:hover{
     cursor: grab;
+}
+.promotion-piece-boxes .fa-solid:hover {
+    cursor: pointer;
+}
+.box.select, .box.select .dot, .box.select .fa-solid:hover{
+    cursor: pointer;
 }

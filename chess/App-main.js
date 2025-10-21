@@ -79,33 +79,33 @@ for (i=0;i<16;i++) {
 for (i=0;i<5;i++) {  //White-pieces
     const boxW = document.createElement("div");
     const countBoxW = document.createElement("div");
-    countBoxW.classList.add("count-box-whites");
+    countBoxW.classList.add("count-box-whites", "count-box");
     countBoxW.value = 0
     countBoxW.innerText = countBoxW.value;
     const pieceW = document.createElement("i");
 
     const boxB = document.createElement("div");
     const countBoxB = document.createElement("div");
-    countBoxB.classList.add("count-box-blacks");
+    countBoxB.classList.add("count-box-blacks", "count-box");
     countBoxB.value = 0
     countBoxB.innerText = countBoxB.value;
     const pieceB = document.createElement("i");
     if (i<4) {
         pieceW.classList.add("fa-solid", `fa-chess-${pieces[i]}`, "iconW");
-        boxW.classList.add(`captured-${pieces[i]}-box`);
-        countBoxW.name = pieces[i];
+        boxW.classList.add(`captured-${pieces[i]}-box`, "whites-captured-box");
+        boxW.name = pieces[i];
 
         pieceB.classList.add("fa-solid", `fa-chess-${pieces[i]}`, "iconB");
-        boxB.classList.add(`captured-${pieces[i]}-box`);
-        countBoxB.name = pieces[i];
+        boxB.classList.add(`captured-${pieces[i]}-box`, "blacks-captured-box");
+        boxB.name = pieces[i];
     }else if (i==4) {
         pieceW.classList.add("fa-solid", `fa-chess-${pieces[5]}`, "iconW", "small-icon");
-        boxW.classList.add("captured-pawn-box");
-        countBoxW.name = pieces[5];
+        boxW.classList.add("captured-pawn-box", "whites-captured-box");
+        boxW.name = pieces[5];
 
         pieceB.classList.add("fa-solid", `fa-chess-${pieces[5]}`, "iconB", "small-icon");
-        boxB.classList.add("captured-pawn-box");
-        countBoxB.name = pieces[5];
+        boxB.classList.add("captured-pawn-box", "blacks-captured-box");
+        boxB.name = pieces[5];
     }
     whitesCaptured.appendChild(boxW);
     boxW.append(pieceW,countBoxW);
@@ -145,17 +145,18 @@ const addDotsAndShade = (clickedBox, placeBoxes, killBoxes) => {
         let dot = document.createElement("div");
         dot.classList.add("dot");
         placeBox.appendChild(dot);
+        placeBox.classList.add("select");
     })
     killBoxes.forEach(killBox => {
-        killBox.classList.add("red-shade");
+        killBox.classList.add("red-shade", "select");
     })
 }
 const promotionBoxes = (placeBoxes, killBoxes) => {
     placeBoxes.forEach(placeBox => {
-        placeBox.classList.add("promotion-glow");
+        placeBox.classList.add("promotion-glow", "select");
     })
     killBoxes.forEach(killBox => {
-        killBox.classList.add("promotion-glow", "kill-box");
+        killBox.classList.add("promotion-glow", "kill-box", "select");
     })
 }
 const remDotsAndShade = () => {
@@ -166,6 +167,7 @@ const remDotsAndShade = () => {
             box.classList.remove("grey");
         }else if (box.querySelector(".dot")) {
             box.querySelector(".dot").remove();
+            box.classList.remove("select");
         }else if (box.classList.contains("red-shade")) {
             box.classList.remove("red-shade");
         }
@@ -177,6 +179,9 @@ const remDotsAndShade = () => {
         }
         if (box.classList.contains("castle-glow")) {
             box.classList.remove("castle-glow");
+        }
+        if (box.classList.contains("select")) {
+            box.classList.remove("select");
         }
     })
 }
@@ -201,15 +206,19 @@ const getWhitePieceBoxes = () => {
 }
 
 const updateKillCount = (killedPiece) => {
+    killedPiece.remove();
     if (killedPiece.color=="white") {
-        countBoxes = document.querySelectorAll(".count-box-whites");
+        capturedBoxes = document.querySelectorAll(".whites-captured-box");
     }else {
-        countBoxes = document.querySelectorAll(".count-box-blacks");
+        capturedBoxes = document.querySelectorAll(".blacks-captured-box");
     }
-    countBoxes.forEach(countBox => {
-        if (countBox.name==killedPiece.name) {
+    capturedBoxes.forEach(capturedBox => {
+        if (capturedBox.name==killedPiece.name) {
+            let countBox = capturedBox.querySelector(".count-box");
+            let piece = capturedBox.querySelector(".fa-solid");
+            piece.classList.add("on");
             countBox.value++;
-            countBox.innerText = countBox.value;
+            countBox.innerHTML = `<span style = "color: rgb(215, 0, 0);">${countBox.value}</span>`;
         }
     })
 }
@@ -278,7 +287,7 @@ const enableMoves = (box,activeBoxes) => {
         killBox.addEventListener("click",evt => {movePiece(activeBoxes,box,piece,killBox,killPiece)}, {signal: movesController.signal});
     })
     castleBoxes.forEach(castleBox => {
-        castleBox.classList.add("castle-glow");
+        castleBox.classList.add("castle-glow", "select");
         castleBox.addEventListener("click",evt => {castle(activeBoxes,castleBox)}, {signal: movesController.signal});
     })
 }
@@ -300,7 +309,7 @@ const selectPiece = ()=> {
 selectPiece();
 
 const promotionModal = (newBox,piece) => {
-    modal.classList.add("active");
+    modal.parentElement.classList.add("promotion");
     newBox.classList.add("promotion-glow");
     for (i=0;i<4;i++) {
         let box = document.createElement("div");
@@ -329,7 +338,7 @@ const promotionModal = (newBox,piece) => {
             piece.remove();
             newBox.appendChild(selectedPiece);
             remDotsAndShade();
-            modal.classList.remove("active");
+            modal.parentElement.classList.remove("promotion");
             modal.replaceChildren();
             whitesTurn = !whitesTurn;
             if (!whitesTurn) {
@@ -361,7 +370,6 @@ const movePiece = (activeBoxes,box,piece,newBox,killPiece) => {
     }
 
     if (killPiece) {
-        killPiece.remove();
         updateKillCount(killPiece);
     }
     newBox.appendChild(piece);
