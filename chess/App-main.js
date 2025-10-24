@@ -4,12 +4,12 @@ const gameBoard = document.querySelector("#game-board");
 const modal = document.querySelector(".promotion-modal");
 const whitesCaptured = document.querySelector(".left-panel .upper .whites-captured");
 const blacksCaptured = document.querySelector(".left-panel .lower .blacks-captured");
+const undo = document.querySelector(".undo");
+const redo = document.querySelector(".redo");
 
 const pieces = ["rook", "knight", "bishop", "queen", "king","pawn"];
-const alpha = ["a", "b", "c", "d"]
 
 // setup
-
 // Board-border setup
 const topWall = borderBox.querySelector("#top-wall");
 const bottomWall = borderBox.querySelector("#bottom-wall");
@@ -56,6 +56,7 @@ for (i=0;i<16;i++) {
         piece.classList.add("fa-solid", `fa-chess-${pieces[5]}`, "iconB", "small-icon");
         piece.name = pieces[5];
     }
+    piece.id = `b${i}`;
     piece.color = "black";
     piecesB.push(piece);
 }
@@ -72,6 +73,7 @@ for (i=0;i<16;i++) {
         piece.classList.add("fa-solid", `fa-chess-${pieces[5]}`, "iconW", "small-icon");
         piece.name = pieces[5];
     }
+    piece.id = `w${i}`;
     piece.color = "white";
     piecesW.push(piece);
 }
@@ -113,13 +115,14 @@ for (i=0;i<5;i++) {  //White-pieces
     blacksCaptured.appendChild(boxB);
     boxB.append(pieceB,countBoxB);
 }
-
 // Re-arrange all the pieces
-let whitesTurn = true;
-let rookLBDisturbed = false, rookRBDisturbed = false, rookLWDisturbed = false, rookRWDisturbed = false, 
-    kingBDisturbed = false, kingWDisturbed = false;
+let whitesTurn = true, count = 0;
+let castlingPieces = ["rookBL", "rookBR", "kingB", "rookWL", "rookWR", "kingW"];
+let castlingPieceBoxes = ["11", "18", "15", "81", "88", "85"];
+let disturbedCastlingPieces = [];
 const reArrange = () => {
-    whitesTurn = true;
+    whitesTurn = true, count = 0;
+    disturbedCastlingPieces = [];
     for (i=0;i<4;i++) {
         for (j=0;j<8;j++) {
             let box;
@@ -135,25 +138,28 @@ const reArrange = () => {
 }
 reArrange();
 
-const addDotsAndShade = (clickedBox, placeBoxes, killBoxes) => {
-    if (placeBoxes.length || killBoxes.length) {
+const addDotsAndShade = (clickedBox, stepBoxes, killBoxes, castleBoxes) => {
+    if (stepBoxes.length || killBoxes.length) {
         clickedBox.classList.add("glow");
     }else {
         clickedBox.classList.add("grey");
     }
-    placeBoxes.forEach(placeBox => {
+    stepBoxes.forEach(stepBox => {
         let dot = document.createElement("div");
         dot.classList.add("dot");
-        placeBox.appendChild(dot);
-        placeBox.classList.add("select");
+        stepBox.appendChild(dot);
+        stepBox.classList.add("select");
     })
     killBoxes.forEach(killBox => {
         killBox.classList.add("red-shade", "select");
     })
+    castleBoxes.forEach(castleBox => {
+        castleBox.classList.add("castle-glow", "select");
+    })
 }
-const promotionBoxes = (placeBoxes, killBoxes) => {
-    placeBoxes.forEach(placeBox => {
-        placeBox.classList.add("promotion-glow", "select");
+const promotionBoxes = (stepBoxes, killBoxes) => {
+    stepBoxes.forEach(stepBox => {
+        stepBox.classList.add("promotion-glow", "select");
     })
     killBoxes.forEach(killBox => {
         killBox.classList.add("promotion-glow", "kill-box", "select");
@@ -250,50 +256,48 @@ const getPieceMoves = (box) => {
     return allBoxes;
 }
 
-// const threatToKingBoxes = () => {
-//     if (!whitesTurn) {
-//         activeBoxes = getWhitePieceBoxes();
-//     }else {
-//         activeBoxes = getBlackPieceBoxes();
-//     }
-//     let placeBoxes = [];
-//     activeBoxes.forEach(box => {
-//         placeBoxes = placeBoxes.concat(getPieceMoves(box)[0]);
-//     })
-// }
-
-const enableMoves = (box,activeBoxes) => {
+const enableMoves = (box) => {
     remDotsAndShade();
     if (movesController) {
         movesController.abort();
     }
     const piece = box.querySelector("i");
-    let allBoxes = getPieceMoves(box);
-    let placeBoxes = allBoxes[0];
+    let allBoxes = validBoxes(box, piece);
+    let stepBoxes = allBoxes[0];
     let killBoxes = allBoxes[1];
-    let castleBoxes;
-    if (piece.name == "king") {
-        castleBoxes = allBoxes[2];
-    }else {
-        castleBoxes = [];
+    let castleBoxes = allBoxes[2];
+    if (piece.name == "pawn") {
+        if (piece.color == "black") {
+            if (box.id[0] == "7") {
+                promotionBoxes(stepBoxes, killBoxes);
+            }
+        }else {
+            if (box.id[0] == "2") {
+                promotionBoxes(stepBoxes, killBoxes);
+            }
+        }
     }
-    addDotsAndShade(box, placeBoxes, killBoxes);
+    addDotsAndShade(box, stepBoxes, killBoxes, castleBoxes);
     movesController = new AbortController();
-    placeBoxes.forEach(placeBox => {
-        placeBox.addEventListener("click",evt => {movePiece(activeBoxes,box,piece,placeBox)}, {signal: movesController.signal});
+    stepBoxes.forEach(stepBox => {
+        stepBox.addEventListener("click",evt => {movePiece(box,piece,stepBox,null,castleBoxes)}, {signal: movesController.signal});
     })
     killBoxes.forEach(killBox => {
         let killPiece = killBox.querySelector("i")
-        killBox.addEventListener("click",evt => {movePiece(activeBoxes,box,piece,killBox,killPiece)}, {signal: movesController.signal});
-    })
-    castleBoxes.forEach(castleBox => {
-        castleBox.classList.add("castle-glow", "select");
-        castleBox.addEventListener("click",evt => {castle(activeBoxes,castleBox)}, {signal: movesController.signal});
+        killBox.addEventListener("click",evt => {movePiece(box,piece,killBox,killPiece)}, {signal: movesController.signal});
     })
 }
 
-let selectionController, movesController, threatBoxes;
+
+let selectionController, movesController;
 const selectPiece = ()=> {
+    // if (count==1) {
+    //     undo.addEventListener("click", activateUndo);
+    //     undo.classList.add("allow");
+    // }else if (count==0) {
+    //     undo.removeEventListener("click", activateUndo);
+    //     undo.classList.remove("allow");
+    // }
     let activeBoxes;
     if (whitesTurn) {
         activeBoxes = getWhitePieceBoxes();
@@ -303,7 +307,7 @@ const selectPiece = ()=> {
     selectionController = new AbortController();
     activeBoxes.forEach(box => {
         box.classList.add("active");
-        box.addEventListener("click",(evt) => {enableMoves(box,activeBoxes)}, {signal: selectionController.signal});
+        box.addEventListener("click",(evt) => {enableMoves(box)}, {signal: selectionController.signal});
     })
 }
 selectPiece();
@@ -351,30 +355,47 @@ const promotionModal = (newBox,piece) => {
     })
 }
 
-const movePiece = (activeBoxes,box,piece,newBox,killPiece) => {
-    activeBoxes.forEach(box => {
-        box.classList.remove("active");
+const castlingBoxes = ["13", "17", "83", "87"], kingPieces = [piecesB[4], piecesW[4]],
+      rookBoxes = ["14", "16", "84", "86"], rookPieces = [piecesB[0],piecesB[7],piecesW[0],piecesW[7]];
+const castle = (castleBox) => {
+    for (i=0;i<4;i++) {
+        if (castleBox.id==castlingBoxes[i]) {
+            let rookBox = document.getElementById(`${rookBoxes[i]}`);
+            rookBox.appendChild(rookPieces[i]);
+        }
+    }
+}
+const movePiece = (box,piece,newBox,killPiece,castleBoxes) => {
+    count++;
+    // history(); // Makes history of each state to help the player to undo or redo the moves.
+    boxes.forEach(box => {
+        if (box.classList.contains("active")) {
+            box.classList.remove("active");
+        }
     })
-    if (box.id=="11") {
-        rookLBDisturbed = true;
-    }else if (box.id=="18") {
-        rookRBDisturbed = true;
-    }else if (box.id=="81") {
-        rookLWDisturbed = true;
-    }else if (box.id=="88") {
-        rookRWDisturbed = true;
-    }else if (box.id=="15") {
-        kingBDisturbed = true;
-    }else if (box.id=="85") {
-        kingWDisturbed = true;
+
+    for (i=0;i<6;i++) {
+        if ((box.id==castlingPieceBoxes[i] || newBox.id==castlingPieceBoxes[i]) && !disturbedCastlingPieces.includes(castlingPieces[i])) {
+            disturbedCastlingPieces.push(castlingPieces[i]);
+        }
     }
 
     if (killPiece) {
         updateKillCount(killPiece);
     }
+    
+    if (castleBoxes) {
+        castleBoxes.forEach(castleBox => {
+            if (castleBox.id==newBox.id) {
+                castle(castleBox);
+            }
+        })
+    }
+
     newBox.appendChild(piece);
     selectionController.abort();
     movesController.abort();
+
     if (newBox.classList.contains("promotion-glow")) {
         remDotsAndShade();
         promotionModal(newBox,piece);
@@ -386,39 +407,67 @@ const movePiece = (activeBoxes,box,piece,newBox,killPiece) => {
         }else {
             borderBox.classList.remove("black");
         }
+
         selectPiece();
-    }2
+    }
 }
 
-const castle = (activeBoxes, box) => {
-    activeBoxes.forEach(box => {
-        box.classList.remove("active");
+const validBoxes = (box,piece) => {
+
+    let allBoxes = getPieceMoves(box);
+    let stepBoxes = allBoxes[0];
+    let killBoxes = allBoxes[1];
+    let castleBoxes = [];
+    if (piece.name == "king") {
+        castleBoxes = allBoxes[2];    
+    }
+
+    let threatBoxes = [];
+    stepBoxes.forEach(stepBox => {
+        stepBox.appendChild(piece);
+        let activeBoxesOpp = [];
+        if (whitesTurn) {
+            activeBoxesOpp = getBlackPieceBoxes();
+        }else {
+            activeBoxesOpp = getWhitePieceBoxes();
+        }
+        activeBoxesOpp.forEach(activeBoxOpp => {
+            let allBoxesOpp = getPieceMoves(activeBoxOpp);
+            let killBoxesOpp = allBoxesOpp[1];
+            killBoxesOpp.forEach(killBoxOpp => {
+                let killPieceOwn = killBoxOpp.querySelector("i");
+                if (killPieceOwn.name == "king") {
+                    threatBoxes.push(stepBox);
+                }
+            }) 
+        })
+        box.appendChild(piece);
     })
-    if (box.id=="87") {
-        box.appendChild(piecesW[4]);
-        let rookBox = document.getElementById("86");
-        rookBox.appendChild(piecesW[7]);
-    }else if (box.id=="83") {
-        box.appendChild(piecesW[4]);
-        let rookBox = document.getElementById("84");
-        rookBox.appendChild(piecesW[0]);
-    }else if (box.id=="17") {
-        box.appendChild(piecesB[4]);
-        let rookBox = document.getElementById("16");
-        rookBox.appendChild(piecesB[7]);
-    }else if (box.id=="13") {
-        box.appendChild(piecesB[4]);
-        let rookBox = document.getElementById("14");
-        rookBox.appendChild(piecesB[0]);
-    }
-    selectionController.abort();
-    movesController.abort();
-    remDotsAndShade();
-    whitesTurn = !whitesTurn;
-    if (!whitesTurn) {
-        borderBox.classList.add("black");
-    }else {
-        borderBox.classList.remove("black");
-    }
-    selectPiece();
+    killBoxes.forEach(killBox => {
+        let killPiece = killBox.querySelector("i");
+        killPiece.remove();
+        killBox.appendChild(piece);
+        let activeBoxesOpp = [];
+        if (whitesTurn) {
+            activeBoxesOpp = getBlackPieceBoxes();
+        }else {
+            activeBoxesOpp = getWhitePieceBoxes();
+        }
+        activeBoxesOpp.forEach(activeBoxOpp => {
+            let allBoxesOpp = getPieceMoves(activeBoxOpp);
+            let killBoxesOpp = allBoxesOpp[1];
+            killBoxesOpp.forEach(killBoxOpp => {
+                let killPieceOwn = killBoxOpp.querySelector("i");
+                if (killPieceOwn.name == "king") {
+                    threatBoxes.push(killBox);
+                }
+            }) 
+        })
+        box.appendChild(piece);
+        killBox.appendChild(killPiece);
+    })
+
+    stepBoxes = stepBoxes.filter(item => !threatBoxes.includes(item));
+    killBoxes = killBoxes.filter(item => !threatBoxes.includes(item));
+    return [stepBoxes, killBoxes, castleBoxes];
 }

@@ -2,7 +2,7 @@
 const pawnMoves = (id) => {
     const box = document.getElementById(`${id}`);
     const piece = box.querySelector("i");
-    placeBoxes = [], killBoxes = [];
+    stepBoxes = [], killBoxes = [];
     let row = +id[0], col = +id[1];
     let n;
     if (piece.color=="black") {
@@ -10,8 +10,6 @@ const pawnMoves = (id) => {
             n=2;
         }else if (row>2 && row<8) {
             n=1;
-        }else {
-            n=0;
         }
         for (i=1;i<=n;i++) {
             let newBoxId = `${row+i}${col}`;
@@ -19,25 +17,20 @@ const pawnMoves = (id) => {
             if (newBox.querySelector("i")) {
                 break
             }
-            placeBoxes.push(newBox);
+            stepBoxes.push(newBox);
         }
-        if (n) {
-            for (i=0;i<2;i++) {
-                let newCol = col+2*i-1;
-                if (newCol>=1 && newCol<=8) {
-                    let newBoxId = `${row+1}${newCol}`;
-                    let newBox = document.getElementById(`${newBoxId}`);
-                    let newPiece = newBox.querySelector("i");
-                    if (newPiece) {
-                        if (newPiece.color=="white") {
-                            killBoxes.push(newBox);
-                        }
+        for (i=0;i<2;i++) {
+            let newCol = col+2*i-1;
+            if (newCol>=1 && newCol<=8) {
+                let newBoxId = `${row+1}${newCol}`;
+                let newBox = document.getElementById(`${newBoxId}`);
+                let newPiece = newBox.querySelector("i");
+                if (newPiece) {
+                    if (newPiece.color=="white") {
+                        killBoxes.push(newBox);
                     }
                 }
             }
-        }
-        if (row==7) {
-            promotionBoxes(placeBoxes, killBoxes);
         }
     }
     if (piece.color=="white") {
@@ -45,8 +38,6 @@ const pawnMoves = (id) => {
             n=2;
         }else if (row>1 && row<7) {
             n=1;
-        }else {
-            n=0;
         }
         for (i=1;i<=n;i++) {
             let newBoxId = `${row-i}${col}`;
@@ -54,34 +45,29 @@ const pawnMoves = (id) => {
             if (newBox.querySelector("i")) {
                 break
             }
-            placeBoxes.push(newBox);
+            stepBoxes.push(newBox);
         }
-        if (n) {
-            for (i=0;i<2;i++) {
-                let newCol = col+2*i-1;
-                if (newCol>=1 && newCol<=8) {
-                    let newBoxId = `${row-1}${newCol}`;
-                    let newBox = document.getElementById(`${newBoxId}`);
-                    let newPiece = newBox.querySelector("i");
-                    if (newPiece) {
-                        if (newPiece.color=="black") {
-                            killBoxes.push(newBox);
-                        }
+        for (i=0;i<2;i++) {
+            let newCol = col+2*i-1;
+            if (newCol>=1 && newCol<=8) {
+                let newBoxId = `${row-1}${newCol}`;
+                let newBox = document.getElementById(`${newBoxId}`);
+                let newPiece = newBox.querySelector("i");
+                if (newPiece) {
+                    if (newPiece.color=="black") {
+                        killBoxes.push(newBox);
                     }
                 }
             }
         }
-        if (row==2) {
-            promotionBoxes(placeBoxes, killBoxes);
-        }
     }
-    return [placeBoxes, killBoxes];
+    return [stepBoxes, killBoxes];
 }
 
 const rookMoves = (id) => {
     const box = document.getElementById(`${id}`);
     const piece = box.querySelector("i");
-    placeBoxes = [], killBoxes = [];
+    stepBoxes = [], killBoxes = [];
     let row = +id[0], col = +id[1];
         for (i=1;i<=8-col;i++) {
             let newBoxId = `${row}${col+i}`;
@@ -93,7 +79,7 @@ const rookMoves = (id) => {
                 }
                 break
             }
-            placeBoxes.push(newBox);
+            stepBoxes.push(newBox);
         }
         for (i=1;i<col;i++) {
             let newBoxId = `${row}${col-i}`;
@@ -105,7 +91,7 @@ const rookMoves = (id) => {
                 }
                 break
             }
-            placeBoxes.push(newBox);
+            stepBoxes.push(newBox);
         }
         for (i=1;i<=8-row;i++) {
             let newBoxId = `${row+i}${col}`;
@@ -117,7 +103,7 @@ const rookMoves = (id) => {
                 }
                 break
             }
-            placeBoxes.push(newBox);
+            stepBoxes.push(newBox);
         }
         for (i=1;i<row;i++) {
             let newBoxId = `${row-i}${col}`;
@@ -129,15 +115,15 @@ const rookMoves = (id) => {
                 }
                 break
             }
-            placeBoxes.push(newBox);
+            stepBoxes.push(newBox);
         }
-    return [placeBoxes, killBoxes];
+    return [stepBoxes, killBoxes];
 }
 
 const knightMoves = (id) => {
     const box = document.getElementById(`${id}`);
     const piece = box.querySelector("i");
-    placeBoxes = [], killBoxes = [];
+    stepBoxes = [], killBoxes = [];
     let row = +id[0], col = +id[1];
         for (i=1;i<=2;i++) {
             for (j=1;j<=4;j++) {
@@ -152,18 +138,18 @@ const knightMoves = (id) => {
                             killBoxes.push(newBox);
                         }
                     }else {
-                        placeBoxes.push(newBox);
+                        stepBoxes.push(newBox);
                     }
                 }
             }
         }
-    return [placeBoxes, killBoxes];
+    return [stepBoxes, killBoxes];
 }
 
 const bishopMoves = (id) => {
     const box = document.getElementById(`${id}`);
     const piece = box.querySelector("i");
-    placeBoxes = [], killBoxes = [];
+    stepBoxes = [], killBoxes = [];
     let row = +id[0], col = +id[1];
         while (row<=7 && col>1) {
             row += 1; col -= 1;
@@ -176,7 +162,7 @@ const bishopMoves = (id) => {
                 }
                 break
             }
-            placeBoxes.push(newBox);
+            stepBoxes.push(newBox);
         }
     row = +id[0]; col = +id[1];
         while (row<=7 && col<=7) {
@@ -190,7 +176,7 @@ const bishopMoves = (id) => {
                 }
                 break
             }
-            placeBoxes.push(newBox);
+            stepBoxes.push(newBox);
         }
     row = +id[0]; col = +id[1];
         while (row>1 && col<=7) {
@@ -204,7 +190,7 @@ const bishopMoves = (id) => {
                 }
                 break
             }
-            placeBoxes.push(newBox);
+            stepBoxes.push(newBox);
         }
     row = +id[0]; col = +id[1]; 
         while (row>1 && col>1) {
@@ -218,15 +204,15 @@ const bishopMoves = (id) => {
                 }
                 break
             }
-            placeBoxes.push(newBox);
+            stepBoxes.push(newBox);
         }
-    return [placeBoxes, killBoxes];
+    return [stepBoxes, killBoxes];
 }
 
 const kingMoves = (id) => {
     const box = document.getElementById(`${id}`);
     const piece = box.querySelector("i");
-    placeBoxes = [], killBoxes = [], castleBoxes = [];
+    stepBoxes = [], killBoxes = [], castleBoxes = [];
     let row = +id[0], col = +id[1];
         for (i=1;i<=2;i++) {
             for (j=1;j<=2;j++) {
@@ -242,53 +228,50 @@ const kingMoves = (id) => {
                                 killBoxes.push(newBox);
                             }
                         }else {
-                            placeBoxes.push(newBox);
+                            stepBoxes.push(newBox);
                         }
                     }
                 }
             }
         }
-        if (whitesTurn && !kingWDisturbed && !rookRWDisturbed) {
-            let nextBox1 = document.getElementById("86");
-            let nextBox2 = document.getElementById("87");
-            let nextPiece1 = nextBox1.querySelector("i");
-            let nextPiece2 = nextBox2.querySelector("i");
-            if (!nextPiece1 && !nextPiece2) {
-                castleBoxes.push(nextBox2);
+        if (whitesTurn && !disturbedCastlingPieces.includes("kingW")) {
+            for (i=0;i<2;i++) {
+                if (!disturbedCastlingPieces.includes(castlingPieces[3+i])) {
+                    let spaceToCastle = true;
+                    let n = Number(castlingPieceBoxes[3+i])-Number(castlingPieceBoxes[5]);
+                    for (j=1;j<(Math.abs(n));j++) {
+                        let nextBox = document.getElementById(`${85+(Math.sign(n))*j}`);
+                        if (nextBox.querySelector(".fa-solid")) {
+                            spaceToCastle = false;
+                        }
+                    }
+                    if (spaceToCastle) {
+                        let castleBox = document.getElementById(`${85+(Math.sign(n))*2}`);
+                        castleBoxes.push(castleBox);
+                        stepBoxes.push(castleBox);
+                    }
+                }
             }
         }
-        if (whitesTurn && !kingWDisturbed && !rookLWDisturbed) {
-            let nextBox1 = document.getElementById("84");
-            let nextBox2 = document.getElementById("83");
-            let nextBox3 = document.getElementById("82");
-            let nextPiece1 = nextBox1.querySelector("i");
-            let nextPiece2 = nextBox2.querySelector("i");
-            let nextPiece3 = nextBox3.querySelector("i");
-            if (!nextPiece1 && !nextPiece2 && !nextPiece3) {
-                castleBoxes.push(nextBox2);
+        if (!whitesTurn && !disturbedCastlingPieces.includes("kingB")) {
+            for (i=0;i<2;i++) {
+                if (!disturbedCastlingPieces.includes(castlingPieces[i])) {
+                    let spaceToCastle = true;
+                    let n = Number(castlingPieceBoxes[i])-Number(castlingPieceBoxes[2]);
+                    for (j=1;j<(Math.abs(n));j++) {
+                        let nextBox = document.getElementById(`${15+(Math.sign(n))*j}`);
+                        if (nextBox.querySelector(".fa-solid")) {
+                            spaceToCastle = false;
+                        }
+                    }
+                    if (spaceToCastle) {
+                        let castleBox = document.getElementById(`${15+(Math.sign(n))*2}`);
+                        castleBoxes.push(castleBox);
+                        stepBoxes.push(castleBox);
+                    }
+                }
             }
         }
-
-        if (!whitesTurn && !kingWDisturbed && !rookRBDisturbed) {
-            let nextBox1 = document.getElementById("16");
-            let nextBox2 = document.getElementById("17");
-            let nextPiece1 = nextBox1.querySelector("i");
-            let nextPiece2 = nextBox2.querySelector("i");
-            if (!nextPiece1 && !nextPiece2) {
-                castleBoxes.push(nextBox2);
-            }
-        }
-        if (!whitesTurn && !kingWDisturbed && !rookLBDisturbed) {
-            let nextBox1 = document.getElementById("14");
-            let nextBox2 = document.getElementById("13");
-            let nextBox3 = document.getElementById("12");
-            let nextPiece1 = nextBox1.querySelector("i");
-            let nextPiece2 = nextBox2.querySelector("i");
-            let nextPiece3 = nextBox3.querySelector("i");
-            if (!nextPiece1 && !nextPiece2 && !nextPiece3) {
-                castleBoxes.push(nextBox2);
-            }
-        }
-    return [placeBoxes, killBoxes, castleBoxes];
+    return [stepBoxes, killBoxes, castleBoxes];
 }
 
