@@ -1,0 +1,113 @@
+
+.right-panel {
+    position:fixed;
+    z-index: 10;
+    align-self: center;
+    bottom: 0.5vh;
+    right: 0.5vh;
+    height: 99vh;
+    width: 49vh;
+    background-color: #001528e1;
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    /* display: none; */
+}
+
+.title {
+    z-index: 22;
+    width:20rem;
+    margin-top: 0.5rem;
+    font-family: 'Lobster', cursive;
+    font-size: 3.5rem;
+    letter-spacing: 0.8rem;
+    color: rgb(180, 180, 180);
+    text-align: center;
+    text-shadow: 
+        0px 0px 1px rgb(180, 180, 180),
+        1px 1px 1px rgb(160, 160, 160),
+        2px 2px 1px rgb(140, 140, 140),
+        3px 3px 1px rgb(120, 120, 120),
+        4px 4px 1px rgb(100, 100, 100),
+        5px 5px 1px rgb(80, 80, 80);
+    border-bottom: 4px solid rgb(160, 160, 160);
+}
+
+.right-panel-content {
+    z-index: 11;
+    position: fixed;
+    bottom: 2vh;
+    height: 60.5vh;
+    width: 46vh;
+    border-radius: 0.5rem;
+    background-color: #264058;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: height 1s ease 0.1s;
+}
+.right-panel-content.promotion {
+    height: 85vh;
+    transition: height 0.8s ease;
+}
+.promotion-modal {
+    z-index: 12;
+    margin-top: 1vh;
+    height: 21.7vh;
+    width: 34.2vh;
+    background-color: rgba(160, 160, 160);
+    border-radius: 0.7rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1rem;
+    transform: scale(0.9);
+    transition: transform 2s ease 0.1s, background-color 2s ease 1s;
+}
+.right-panel-content.promotion .promotion-modal{
+    background-color: rgb(124, 230, 120);
+    box-shadow: 2px -1px 12px 3px rgb(29, 29, 29), inset 2px -2px 7px 5px rgb(177, 249, 176);
+    transform: scale(1);
+    transition: transform 1s ease, background-color 1s ease ;
+}
+
+.pocket {
+    position: absolute;
+    z-index: 15;
+    bottom: 20vh;
+    height: 37vh;
+    width: 20rem;
+    background-color: #264058;
+    border-top: 4px solid rgb(160, 160, 160);
+}
+
+.contents {
+    position: absolute;
+    bottom: 0vh;
+    z-index: 16;
+    height: 57vh;
+    width: 100%;
+    /* background-color: rgba(58, 91, 149, 0.5); */
+    border-radius: 0.5rem;
+    display: flex;
+}
+
+.undo, .redo {
+    margin-top: 5vh;
+    margin-left: 5vh;
+    height: 5vh;
+    width: 5vh;
+    background-color: #525f5f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.undo, .undo i, .redo, .redo i:hover {
+    cursor: pointer;
+}
+
+.undo.allow, .redo.allow {
+    background-color: #97a7a7;
+}

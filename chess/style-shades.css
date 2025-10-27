@@ -22,64 +22,70 @@
     height: 1.4rem;
     width: 1.4rem;
     border-radius: 50%;
-    background-color: rgba(188, 137, 96, 0.4);
+    background-color: rgba(188, 137, 96, 0.35);
+    transition: background-color 0.2s ease;
 }
 .white-box .dot {
     height: 1.4rem;
     width: 1.4rem;
     border-radius: 50%;
-    background-color: rgba(150, 133, 106, 0.4);
+    background-color: rgba(150, 133, 106, 0.35);
+    transition: background-color 0.2s ease;
 }
 
 .black-box.red-shade {
     z-index: 3;
-    /* background-color: rgb(178, 1, 1); */
     box-shadow: inset 0 0 70px rgb(255, 70, 70);
+    transition: box-shadow 0.4s ease;
     animation: pulse-black 2s ease-in-out 2s 12;
 }
 .white-box.red-shade {
     z-index: 3;
     box-shadow: inset 0 0 70px rgb(255, 70, 70);
+    transition: box-shadow 0.4s ease;
     animation: pulse-white 2s ease-in-out 2s 12;
 }
 
-.black-box.promotion-glow.kill-box {
+.black-box.red-shade-king {
     z-index: 3;
-    box-shadow: inset 0 0 30px rgb(85, 255, 75);
-    animation: pulse-black 3s ease-in-out 1s infinite;
+    box-shadow: inset 0 0 70px rgb(200, 10, 10);
+    transition: box-shadow 0.4s ease;
+    animation: pulse-black 0.35s ease-in-out 0s 3;
 }
+.white-box.red-shade-king {
+    z-index: 3;
+    box-shadow: inset 0 0 70px rgb(200, 10, 10);
+    transition: box-shadow 0.4s ease;
+    animation: pulse-white 0.35s ease-in-out 0s 3;
+}
+
 @keyframes pulse-black {
   40% {
-    /* background-color: rgba(237, 27, 27, 0.8); */
     z-index: 4;
-    box-shadow: 0 0 10px rgba(237, 27, 27);
-    box-shadow: inset 0 0 70px rgb(255, 0, 0);
+    box-shadow:inset 0 0 70px rgb(255, 0, 0);
   }
-}
-.white-box.promotion-glow.kill-box {
-    z-index: 3;
-    box-shadow: inset 0 0 30px rgb(75, 255, 60);
-    animation: pulse-white 3s ease-in-out 1s infinite;
 }
 @keyframes pulse-white {
   40% {
     z-index: 4;
-    box-shadow: 0 0 20px rgb(255, 0, 0);
-    box-shadow: inset 0 0 70px rgb(255, 0, 0);
+    box-shadow:inset 0 0 70px rgb(255, 0, 0);
   }
 }
 
 .black-box.promotion-glow {
     z-index: 3;
-    box-shadow: inset 0 0 35px rgb(85, 255, 75);
+    box-shadow: inset 0 0 40px rgb(85, 255, 75);
+    transition: box-shadow 0.4s ease;
 }
 .white-box.promotion-glow {
     z-index: 3;
-    box-shadow: inset 0 0 35px rgb(75, 255, 60);
+    box-shadow: inset 0 0 40px rgb(75, 255, 60);
+    transition: box-shadow 0.4s ease;
 }
 .castle-glow {
     z-index: 3;
     box-shadow: inset 0 0 50px rgb(226, 11, 254);
+    transition: box-shadow 0.4s ease;
 }
 
 
@@ -141,7 +147,7 @@
 .box.active, .box.active .fa-solid:hover{
     cursor: grab;
 }
-.promotion-piece-boxes .fa-solid:hover {
+.promotion-piece-boxes, .promotion-piece-boxes .fa-solid:hover {
     cursor: pointer;
 }
 .box.select, .box.select .dot, .box.select .fa-solid:hover{

@@ -1,0 +1,199 @@
+
+.left-panel {
+    position: fixed;
+    height: 96vh;
+    width: 42.6vh;
+    align-self: center;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.left-panel .upper,.lower {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.left-panel .upper .whites-captured {
+    position: relative;
+    z-index: 5;
+    height: 47vh;
+    width: 40vh;
+    background-color: rgb(30, 30, 30);
+    border-radius: 0.8rem;
+    display: flex;
+    flex-wrap: wrap;
+}
+.left-panel .lower .blacks-captured{
+    position: relative;
+    z-index: 5;
+    height: 47vh;
+    width: 40vh;
+    background-color: rgb(200, 200, 200);;
+    border-radius: 0.8rem;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.captured-queen-box {
+    position: absolute;
+    top: 1.5rem;
+    left: 0.8rem;
+    height: 10vh;
+    width: 17vh;
+    display: flex;
+    align-items: baseline;
+    gap: 0.8rem;
+}
+.captured-rook-box {
+    position: absolute;
+    top: 11.5rem;
+    left: 1.5rem;
+    height: 10vh;
+    width: 17vh;
+    display: flex;
+    align-items: baseline;
+    gap: 0.8rem;
+}
+.captured-knight-box {
+    position: absolute;
+    top: 7.5rem;
+    left: 6.5rem;
+    height: 10vh;
+    width: 17vh;
+    display: flex;
+    align-items: baseline;
+    gap: 0.8rem;
+}
+.captured-bishop-box {
+    position: absolute;
+    top: 3.5rem;
+    left: 11.5rem;
+    height: 10vh;
+    width: 17vh;
+    display: flex;
+    align-items: baseline;
+    gap: 0.8rem;
+}
+.captured-pawn-box {
+    position: absolute;
+    top: 14.5rem;
+    left: 12rem;
+    height: 10vh;
+    width: 17vh;
+    display: flex;
+    color: linear-gradient(to left, red, black);
+    align-items: baseline;
+    gap: 0.8rem;
+}
+
+.whites-captured-box .iconW {
+    color: rgb(165, 165, 165);
+    text-shadow: none;
+}
+.whites-captured-box .iconW.on {
+    color: rgb(220, 220, 220);
+    text-shadow: 0 0 0.5rem rgba(220, 220, 220, 0.8);
+}
+.blacks-captured-box .iconB {
+    color: rgb(85, 85, 85);
+    text-shadow: none;
+}
+.blacks-captured-box .iconB.on {
+    color: rgb(0, 0, 0);
+    text-shadow: 0 0 0.3rem rgba(0, 0, 0,0.8);
+}
+
+.count-box-whites {
+    position: relative;
+    right: 0.9rem;
+    height: 2.2rem;
+    width: 2.5rem;
+    background-color: rgb(169, 169, 169);
+    color: rgb(65, 65, 65);
+    font-size: 1.6rem;
+    font-weight: 600;
+    font-family:sans-serif;
+    border-radius: 0.6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.count-box-blacks {
+    position: relative;
+    right: 0.9rem;
+    height: 2.2rem;
+    width: 2.5rem;
+    background-color: rgb(150, 150, 150);
+    color: rgb(65, 65, 65);
+    font-size: 1.6rem;
+    font-weight: 600;
+    font-family:sans-serif;
+    border-radius: 0.6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.seperating-line-1 {
+    position: absolute;
+    top: 0.8rem;
+    left: 0.8rem;
+    z-index: 6;
+}
+.seperating-line-2 {
+    position: absolute;
+    top: 7.9rem;
+    left: 6.1rem;
+    z-index: 6;
+}
+
+.left-panel-upper-text {
+    z-index: 6;
+    position: absolute;
+    top: 19rem;
+    color:  rgba(30, 30, 30);
+    font-size: 1.3rem;
+    font-weight: 600;
+    background-color: rgb(160, 160, 160);
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    border-radius: 0.9rem;
+    word-spacing: 0.4rem;
+}
+.left-panel-upper-text .color-captured {
+    position: absolute;
+    top: -2.5rem;
+    left: -0.7rem;
+    color: rgba(255, 255, 255, 0.95); 
+    font-size: 2rem; 
+    letter-spacing: 0.1rem;
+    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-weight: 1000;
+}
+.left-panel-lower-text {
+    z-index: 6;
+    position: absolute;
+    top: 19rem;
+    color: rgba(200, 200, 200);
+    font-size: 1.3rem;
+    font-weight: 600;
+    background-color: rgb(145, 145, 145);
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    border-radius: 0.9rem;
+    word-spacing: 0.4rem;
+}
+.left-panel-lower-text .color-captured {
+    position: absolute;
+    top: -2.5rem;
+    left: -0.7rem;
+    color: rgba(0, 0, 0, 0.9); 
+    font-size: 2rem; 
+    letter-spacing: 0.1rem;
+    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-weight: 1000;
+}
