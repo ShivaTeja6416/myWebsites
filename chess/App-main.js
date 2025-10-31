@@ -220,6 +220,7 @@ let killedPieces = [];
 const updateKillCount = (killedPiece) => {
     killedPieces.push(killedPiece);
     killedPiece.remove();
+    let capturedBoxes;
     if (killedPiece.color=="white") {
         capturedBoxes = document.querySelectorAll(".whites-captured-box");
     }else {
@@ -328,22 +329,56 @@ const checkForCHECK = () => {
 //     console.log("redo", count);
 // }
 
-const rookStartBoxes = ["11", "18", "81", "88"];
-const undoMove = (endBox, piece, startBox, killedPiece, promoted, castled, disturbedCastlingPiece) =>{
-    count--;
 
+let movesHistory = [];
+const activateUndo = () => {
+    // redo.addEventListener("click", activateRedo);
+    // redo.classList.add("allow");
+    count--;
     boxes.forEach(box => {
         if (box.classList.contains("active")) {
             box.classList.remove("active");
         }
     })
-    if (promoted) {
-        let promotedPiece = endBox.querySelector("i");
-        promotedPiece.remove();
-    }
 
-    if (killedPiece) {
+    let prevMove = movesHistory[count];
+    let startBox = document.getElementById(`${prevMove[0]}`);
+    let piece;
+    let endBox = document.getElementById(`${prevMove[2]}`);
+    let killedPieceID = prevMove[3], promoted = prevMove[4], castled = prevMove[5], castlingPieceDisturbed = prevMove[6];
+    if (promoted) {
+        piece = promotedPawns.at(-1);
+        promotedPawns.pop();
+        let promotedPiece = endBox.querySelector("i");
+        promotedPiece.remove();   
+    }else {
+        piece = document.getElementById(`${prevMove[1]}`);
+    }
+    
+    if (killedPieceID) {
+        let killedPiece = killedPieces.at(-1);
+        killedPieces.pop();
         endBox.appendChild(killedPiece);
+        let capturedBoxes;
+        if (killedPiece.color=="white") {
+            capturedBoxes = document.querySelectorAll(".whites-captured-box");
+        }else {
+            capturedBoxes = document.querySelectorAll(".blacks-captured-box");
+        }
+        capturedBoxes.forEach(capturedBox => {
+            if (capturedBox.name==killedPiece.name) {
+                let countBox = capturedBox.querySelector(".count-box");
+                let piece = capturedBox.querySelector(".fa-solid");
+                if (countBox.value>0) {
+                    countBox.value--;
+                    countBox.innerHTML = `<span style = "color: rgb(215, 0, 0);">${countBox.value}</span>`;
+                }
+                if (countBox.value==0) {
+                    piece.classList.remove("on"); 
+                    countBox.innerHTML = `${countBox.value}`;  
+                }
+            }
+        })
     }
 
     if (castled) {
@@ -354,8 +389,9 @@ const undoMove = (endBox, piece, startBox, killedPiece, promoted, castled, distu
             }
         }
     }
-    if (disturbedCastlingPiece) {
-        disturbedCastlingPieces = disturbedCastlingPieces.filter(item => item!=disturbedCastlingPiece)
+
+    if (castlingPieceDisturbed) {
+        disturbedCastlingPieces.pop();
     }
 
     startBox.appendChild(piece);
@@ -364,7 +400,9 @@ const undoMove = (endBox, piece, startBox, killedPiece, promoted, castled, distu
 
     if (endBox.classList.contains("promotion-glow")) {
         remDotsAndShade();
-        promotionModal(endBox,piece);
+        modal.parentElement.classList.remove("promotion");
+        modal.replaceChildren();
+        selectPiece();
     }else {
         remDotsAndShade();
         whitesTurn = !whitesTurn;
@@ -376,27 +414,6 @@ const undoMove = (endBox, piece, startBox, killedPiece, promoted, castled, distu
 
         selectPiece();
     }
-}
-
-let movesHistory = [];
-const activateUndo = () => {
-    // redo.addEventListener("click", activateRedo);
-    // redo.classList.add("allow");
-
-    let prevMove = movesHistory[count-1];
-    let startBox = document.getElementById(`${prevMove[0]}`);
-    let piece;
-    if (prevMove[4]) {
-        piece = promotedPawns.find(item => item.id.slice(1)==prevMove[1].slice(1));
-    }else {
-        piece = document.getElementById(`${prevMove[1]}`);
-    }
-    let endBox = document.getElementById(`${prevMove[2]}`);
-    let killedPiece = null;
-    if (prevMove[3]) {
-        killedPiece = killedPieces.find(item => item.id==prevMove[3]);
-    }
-    undoMove(endBox, piece, startBox, killedPiece, prevMove[4], prevMove[5], prevMove[6]);
 }
 
 let selectionController, movesController;
@@ -462,6 +479,7 @@ const promotionModal = (newBox,piece) => {
     let boxes = document.querySelectorAll(".promotion-piece-boxes");
     boxes.forEach(box => {
         box.addEventListener("click", () => {
+            movesHistory[count-1][4] = true;
             let selectedPiece = box.querySelector("i");
             piece.remove();
             promotedPawns.push(piece);
@@ -480,8 +498,8 @@ const promotionModal = (newBox,piece) => {
     })
 }
 
-const castlingBoxes = ["13", "17", "83", "87"], 
-      rookEndBoxes = ["14", "16", "84", "86"], rookPieces = [piecesB[0],piecesB[7],piecesW[0],piecesW[7]];
+const castlingBoxes = ["13", "17", "83", "87"], rookPieces = [piecesB[0],piecesB[7],piecesW[0],piecesW[7]],
+      rookStartBoxes = ["11", "18", "81", "88"], rookEndBoxes = ["14", "16", "84", "86"];
 const castle = (castleBox) => {
     for (i=0;i<4;i++) {
         if (castleBox.id==castlingBoxes[i]) {
@@ -502,11 +520,11 @@ const movePiece = (box, piece, newBox, killPiece, castleBoxes) => {
         }
     })
 
-    let disturbedCastlingPiece = null;
+    let castlingPieceDisturbed = false;
     for (i=0;i<6;i++) {
         if ((box.id==castlingPieceBoxes[i] || newBox.id==castlingPieceBoxes[i]) && !disturbedCastlingPieces.includes(castlingPieces[i])) {
             disturbedCastlingPieces.push(castlingPieces[i]);
-            disturbedCastlingPiece = castlingPieces[i];
+            castlingPieceDisturbed = true;
         }
     }
 
@@ -532,9 +550,8 @@ const movePiece = (box, piece, newBox, killPiece, castleBoxes) => {
 
     let promoted = false;
     if (piece.name=="pawn" && ((piece.color=="black" && box.id[0]=="7") || (piece.color=="white" && box.id[0]=="2"))) {
-        promoted = true;
         remDotsAndShade();
-        promotionModal(newBox,piece);
+        promotionModal(newBox,piece,promoted);
     }else {
         remDotsAndShade();
         whitesTurn = !whitesTurn;
@@ -547,7 +564,7 @@ const movePiece = (box, piece, newBox, killPiece, castleBoxes) => {
         selectPiece();
     }
     movesHistory = movesHistory.slice(0,count-1);
-    movesHistory.push([box.id, piece.id, newBox.id, killedPieceID, promoted, castled, disturbedCastlingPiece]);
+    movesHistory.push([box.id, piece.id, newBox.id, killedPieceID, promoted, castled, castlingPieceDisturbed]);
 }
 
 const validBoxes = (box, piece, check) => {
