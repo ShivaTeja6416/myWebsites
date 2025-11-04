@@ -6,6 +6,9 @@ const whitesCaptured = document.querySelector(".left-panel .upper .whites-captur
 const blacksCaptured = document.querySelector(".left-panel .lower .blacks-captured");
 const undo = document.querySelector(".undo");
 const redo = document.querySelector(".redo");
+const counter = document.querySelector(".counter");
+const video = document.querySelector("#camera-1");
+const video2 = document.querySelector("#camera-2");
 
 const pieces = ["rook", "knight", "bishop", "queen", "king","pawn"];
 
@@ -324,41 +327,103 @@ const checkForCHECK = () => {
     return check;
 }
 
-// const activateRedo = () => {
-//     count++;
-//     console.log("redo", count);
-// }
 
-
-let movesHistory = [];
-const activateUndo = () => {
-    // redo.addEventListener("click", activateRedo);
-    // redo.classList.add("allow");
-    count--;
+let undosHistory = [], promotedPiecesForRedo = [], availableRedos = 0;
+const activateRedo = () => {
+    availableRedos--;
+    count++;
+    if (availableRedos==0) {
+        redo.removeEventListener("click", activateRedo);
+        redo.classList.remove("allow");
+    }
     boxes.forEach(box => {
         if (box.classList.contains("active")) {
             box.classList.remove("active");
         }
     })
 
+    let prevMove = undosHistory[availableRedos];
+    let startBox = document.getElementById(`${prevMove[0]}`);
+    let piece;
+    let endBox = document.getElementById(`${prevMove[2]}`);
+    let killedPieceID = prevMove[3], promoted = prevMove[4], castled = prevMove[5], disturbedCastlingPiece = prevMove[6];
+    if (promoted) {
+        piece = promotedPiecesForRedo.at(-1);
+        promotedPiecesForRedo.pop();
+        let promotedPawn = startBox.querySelector("i");
+        promotedPawn.remove();
+        promotedPawns.push(promotedPawn);
+    }else {
+        piece = document.getElementById(`${prevMove[1]}`);
+    }
+
+    if (killedPieceID) {
+        let killedPiece = document.getElementById(`${killedPieceID}`)
+        updateKillCount(killedPiece);
+    }
+
+    if (castled) {
+        for (i=0;i<4;i++) {
+            if (endBox.id==castlingBoxes[i]) {
+                let rookBox = document.getElementById(`${rookEndBoxes[i]}`);
+                rookBox.appendChild(rookPieces[i]);
+            }
+        }
+    }
+
+    if (disturbedCastlingPiece) {
+        disturbedCastlingPieces.push(disturbedCastlingPiece);
+    }
+
+    endBox.appendChild(piece);
+    selectionController.abort();
+    movesController.abort();
+
+    remDotsAndShade();
+    whitesTurn = !whitesTurn;
+    if (!whitesTurn) {
+        borderBox.classList.add("black");
+    }else {
+        borderBox.classList.remove("black");
+    }
+    selectPiece();
+}
+
+let movesHistory = [];
+const activateUndo = () => {
+    count--;
+    boxes.forEach(box => {
+        if (box.classList.contains("active")) {
+            box.classList.remove("active");
+        }
+    })
     let prevMove = movesHistory[count];
     let startBox = document.getElementById(`${prevMove[0]}`);
     let piece;
     let endBox = document.getElementById(`${prevMove[2]}`);
-    let killedPieceID = prevMove[3], promoted = prevMove[4], castled = prevMove[5], castlingPieceDisturbed = prevMove[6];
+    let killed = prevMove[3], promoted = prevMove[4], promoting = prevMove[5], castled = prevMove[6], castlingPieceDisturbed = prevMove[7];
+    if (!promoting) {
+        availableRedos++;
+    }
+    if (availableRedos==1) { 
+        redo.addEventListener("click", activateRedo);
+        redo.classList.add("allow");
+    }
     if (promoted) {
         piece = promotedPawns.at(-1);
         promotedPawns.pop();
         let promotedPiece = endBox.querySelector("i");
-        promotedPiece.remove();   
+        promotedPiece.remove();
+        promotedPiecesForRedo.push(promotedPiece);
     }else {
         piece = document.getElementById(`${prevMove[1]}`);
     }
-    
-    if (killedPieceID) {
+    let killedPieceID = null;
+    if (killed) {
         let killedPiece = killedPieces.at(-1);
         killedPieces.pop();
         endBox.appendChild(killedPiece);
+        killedPieceID = killedPiece.id;
         let capturedBoxes;
         if (killedPiece.color=="white") {
             capturedBoxes = document.querySelectorAll(".whites-captured-box");
@@ -390,7 +455,9 @@ const activateUndo = () => {
         }
     }
 
+    let disturbedCastlingPiece = null;
     if (castlingPieceDisturbed) {
+        disturbedCastlingPiece = disturbedCastlingPieces.at(-1);
         disturbedCastlingPieces.pop();
     }
 
@@ -411,13 +478,15 @@ const activateUndo = () => {
         }else {
             borderBox.classList.remove("black");
         }
-
         selectPiece();
     }
+    undosHistory = undosHistory.slice(0,availableRedos-1);
+    undosHistory.push([startBox.id, piece.id, endBox.id, killedPieceID, promoted, castled, disturbedCastlingPiece]);
 }
 
 let selectionController, movesController;
 const selectPiece = ()=> {
+    counter.innerText = count;
     if (count==1) {
         undo.addEventListener("click", activateUndo);
         undo.classList.add("allow");
@@ -480,6 +549,7 @@ const promotionModal = (newBox,piece) => {
     boxes.forEach(box => {
         box.addEventListener("click", () => {
             movesHistory[count-1][4] = true;
+            movesHistory[count-1][5] = false;
             let selectedPiece = box.querySelector("i");
             piece.remove();
             promotedPawns.push(piece);
@@ -510,8 +580,9 @@ const castle = (castleBox) => {
 }
 
 const movePiece = (box, piece, newBox, killPiece, castleBoxes) => {
-    // redo.removeEventListener("click", activateRedo);
-    // redo.classList.remove("allow");
+    redo.removeEventListener("click", activateRedo);
+    redo.classList.remove("allow");
+    availableRedos = 0;
     count++;
 
     boxes.forEach(box => {
@@ -528,10 +599,10 @@ const movePiece = (box, piece, newBox, killPiece, castleBoxes) => {
         }
     }
 
-    let killedPieceID = null;
+    let killed = false;
     if (killPiece) {
         updateKillCount(killPiece);
-        killedPieceID = killPiece.id;
+        killed = true;
     }
     
     let castled = false;
@@ -548,10 +619,11 @@ const movePiece = (box, piece, newBox, killPiece, castleBoxes) => {
     selectionController.abort();
     movesController.abort();
 
-    let promoted = false;
+    let promoted = false, promoting = false;
     if (piece.name=="pawn" && ((piece.color=="black" && box.id[0]=="7") || (piece.color=="white" && box.id[0]=="2"))) {
         remDotsAndShade();
         promotionModal(newBox,piece,promoted);
+        promoting = true;
     }else {
         remDotsAndShade();
         whitesTurn = !whitesTurn;
@@ -560,11 +632,10 @@ const movePiece = (box, piece, newBox, killPiece, castleBoxes) => {
         }else {
             borderBox.classList.remove("black");
         }
-
         selectPiece();
     }
     movesHistory = movesHistory.slice(0,count-1);
-    movesHistory.push([box.id, piece.id, newBox.id, killedPieceID, promoted, castled, castlingPieceDisturbed]);
+    movesHistory.push([box.id, piece.id, newBox.id, killed, promoted, promoting, castled, castlingPieceDisturbed]);
 }
 
 const validBoxes = (box, piece, check) => {
@@ -627,3 +698,20 @@ const validBoxes = (box, piece, check) => {
     killBoxes = killBoxes.filter(item => !threatBoxes.includes(item));
     return [stepBoxes, killBoxes, castleBoxes];
 }
+
+
+const startCamera = async () => {
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: {noiseSuppression: true,echoCancellation: true, autoGainControl: true}});
+        
+        video.srcObject = stream;
+        video2.srcObject = stream;
+
+        await video.play();
+        await video2.play();
+    }catch (error) {
+        console.error("Error accessing camera:", error);
+        alert("Camera access denied or unavailable.");
+    }
+}
+startCamera();

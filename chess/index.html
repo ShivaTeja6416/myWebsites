@@ -70,11 +70,23 @@
                 <div class="promotion-modal"></div>
                 <div class="pocket"></div>
                 <div class="contents">
-                    <div class="undo">
+                    <button class="undo">
                         <i class="fa-solid fa-rotate-left"></i>
+                    </button>
+                    <div class="counter-box">
+                        <span>Moves count</span>
+                        <div class="counter"></div>
                     </div>
-                    <div class="redo">
+                    <button class="redo">
                         <i class="fa-solid fa-rotate-right"></i>
+                    </button>
+                    <div id="camera-container">
+                        <div id="camera-box-1">
+                            <video id="camera-1" autoplay playsinline disablepictureinpicture controlslist="nodownload nofullscreen noremoteplayback"></video>
+                        </div>
+                        <div id="camera-box-2">
+                            <video id="camera-2" autoplay playsinline disablepictureinpicture controlslist="nodownload nofullscreen noremoteplayback"></video>
+                        </div>
                     </div>
                 </div>
             </div>

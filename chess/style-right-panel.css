@@ -3,11 +3,11 @@
     position:fixed;
     z-index: 10;
     align-self: center;
-    bottom: 0.5vh;
-    right: 0.5vh;
-    height: 99vh;
-    width: 49vh;
-    background-color: #001528e1;
+    bottom: 0.25vh;
+    right: 0.25vh;
+    height: 99.5vh;
+    width: 52vh;
+    background-color: #001528;
     border-radius: 0.5rem;
     display: flex;
     flex-direction: column;
@@ -19,7 +19,7 @@
 .title {
     z-index: 22;
     width:20rem;
-    margin-top: 0.5rem;
+    margin-top: 0.25rem;
     font-family: 'Lobster', cursive;
     font-size: 3.5rem;
     letter-spacing: 0.8rem;
@@ -32,24 +32,24 @@
         3px 3px 1px rgb(120, 120, 120),
         4px 4px 1px rgb(100, 100, 100),
         5px 5px 1px rgb(80, 80, 80);
-    border-bottom: 4px solid rgb(160, 160, 160);
+    border-bottom: 3px solid rgb(160, 160, 160);
 }
 
 .right-panel-content {
     z-index: 11;
     position: fixed;
-    bottom: 2vh;
-    height: 60.5vh;
-    width: 46vh;
-    border-radius: 0.5rem;
-    background-color: #264058;
+    bottom: 1.25vh;
+    height: 63.5vh;
+    width: 49vh;
+    border-radius: 0.2rem;
+    background-color: #001528;
     display: flex;
     flex-direction: column;
     align-items: center;
     transition: height 1s ease 0.1s;
 }
 .right-panel-content.promotion {
-    height: 85vh;
+    height: 88vh;
     transition: height 0.8s ease;
 }
 .promotion-modal {
@@ -72,42 +72,139 @@
     transform: scale(1);
     transition: transform 1s ease, background-color 1s ease ;
 }
+.promotion-piece-boxes {
+    height: 10vh;
+    width: 10vh;
+    border-radius: 0.7vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 .pocket {
     position: absolute;
     z-index: 15;
-    bottom: 20vh;
+    bottom: 23vh;
     height: 37vh;
     width: 20rem;
-    background-color: #264058;
-    border-top: 4px solid rgb(160, 160, 160);
+    background-color: #001528;
+    border-top: 3.5px solid rgb(160, 160, 160);
 }
 
 .contents {
     position: absolute;
     bottom: 0vh;
     z-index: 16;
-    height: 57vh;
+    height: 60vh;
     width: 100%;
     /* background-color: rgba(58, 91, 149, 0.5); */
     border-radius: 0.5rem;
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12rem;
 }
 
 .undo, .redo {
-    margin-top: 5vh;
-    margin-left: 5vh;
+    appearance: none;
+    background: none;
+    border: none;
+    outline: none;
+    margin-top: 2vh;
     height: 5vh;
     width: 5vh;
     background-color: #525f5f;
+    font-size: 1.25rem;
     display: flex;
     justify-content: center;
     align-items: center;
+    border-radius: 15%;
+}
+.undo.allow, .redo.allow {
+    background-color: #a2b3b3;
 }
 .undo.allow, .undo.allow i, .redo.allow, .redo.allow i:hover {
     cursor: pointer;
 }
+.undo.allow:hover, .redo.allow:hover {
+    background-color: #c0d2d2;
+    transform: scale(1.03);
+    transition: transform, background-color 0.3s ease;
+}
+.undo.allow:active, .redo.allow:active {
+    animation: clicked 0.3s ease ;
+}
+@keyframes clicked {
+    0%{
+        transform: scale(1);
+        background-color: #a2b3b3;
+    }
+    100%{
+        transform: scale(1);
+        background-color: #a2b3b3;
+    }
+}
 
-.undo.allow, .redo.allow {
-    background-color: #97a7a7;
+.counter-box {
+    position: absolute;
+    margin-top: 1.5vh;
+    height: 6vh;
+    max-width: 18vh;
+    background-color: #a2afaf;
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+    border-radius: 0.8rem;
+}
+.counter-box span {
+    height: 5vh;
+    width: 8vh;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+.counter {
+    height: 6vh;
+    min-width: 4vh;
+    max-width: 8vh;
+    background-color: #848989;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-x: auto;
+    font-size: 1.25rem;
+    padding: 0 0.75rem 0 0.75rem;
+    border-radius: 0.8rem;
+    scrollbar-width:none;
+}
+
+#camera-container {
+    position: absolute;
+    top: 8.8vh;
+    height: 50vh;
+    width: 98%;
+    background-color: #264058;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 0.5rem;
+    border: 5px solid #264058;
+    border-radius: 0.5rem;
+}
+#camera-box-1, #camera-box-2 {
+    height: 48%;
+    width: 98%;
+    background-color: #000000;
+    border-radius: 0.4rem;
+}
+#camera-1, #camera-2 {
+    height: 100%;
+    width:max-content;
+    object-fit:cover;
+    background-color: rgb(0, 0, 0);
+    transform: scaleX(-1);
+    border-radius: 0.4rem;
 }

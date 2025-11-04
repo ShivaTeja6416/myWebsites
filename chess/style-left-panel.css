@@ -1,8 +1,9 @@
 
 .left-panel {
-    position: fixed;
+    position: absolute;
     height: 96vh;
     width: 42.6vh;
+    left: -1vh;
     align-self: center;
     border-radius: 1rem;
     display: flex;
