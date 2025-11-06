@@ -149,17 +149,17 @@ body {
 }
 
 
-.box.active, .box.active .fa-solid:hover{
+.box.active, .box.active .fa-solid{
     cursor: grab;
 }
 .box.active .fa-solid:hover{
-    transform: scale(1.03);
-    transition: transform 0.3s ease;
+    transform: scale(103%);
+    transition: transform 0.1s ease-in-out;
 }
-.promotion-piece-boxes, .promotion-piece-boxes .fa-solid:hover {
+.promotion-piece-boxes, .promotion-piece-boxes .fa-solid {
     cursor: pointer;
 }
-.box.select, .box.select .dot, .box.select .fa-solid:hover{
+.box.select, .box.select .dot, .box.select .fa-solid {
     cursor: pointer;
 }
 

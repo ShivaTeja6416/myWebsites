@@ -7,8 +7,14 @@ const blacksCaptured = document.querySelector(".left-panel .lower .blacks-captur
 const undo = document.querySelector(".undo");
 const redo = document.querySelector(".redo");
 const counter = document.querySelector(".counter");
-const video = document.querySelector("#camera-1");
-const video2 = document.querySelector("#camera-2");
+const video1 = document.querySelector("#video-1");
+const video2 = document.querySelector("#video-2");
+const audio1 = document.querySelector("#audio-1");
+const audio2 = document.querySelector("#audio-2");
+const playVid1 = document.querySelector("#play-vid-1");
+const playVid2 = document.querySelector("#play-vid-2");
+const playAud1 = document.querySelector("#play-aud-1");
+const playAud2 = document.querySelector("#play-aud-2");
 
 const pieces = ["rook", "knight", "bishop", "queen", "king","pawn"];
 
@@ -699,19 +705,94 @@ const validBoxes = (box, piece, check) => {
     return [stepBoxes, killBoxes, castleBoxes];
 }
 
-
-const startCamera = async () => {
+let streamVideo2, playVidToggler2 = false;
+const startCamera2 = async () => {
+    const icon = playVid2.querySelector("i");
     try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: {noiseSuppression: true,echoCancellation: true, autoGainControl: true}});
+        streamVideo2 = await navigator.mediaDevices.getUserMedia({ 
+            video: true
+        });
         
-        video.srcObject = stream;
-        video2.srcObject = stream;
-
-        await video.play();
+        video2.srcObject = streamVideo2;
         await video2.play();
+
+        icon.classList.remove("fa-video");
+        icon.classList.add("fa-video-slash");
+        playVid2.classList.add("vid-on");
+        playAud2.classList.add("vid-on");
+        playVidToggler2 = true;
+
     }catch (error) {
         console.error("Error accessing camera:", error);
         alert("Camera access denied or unavailable.");
+
+        icon.classList.remove("fa-video-slash");
+        playVid2.classList.remove("vid-on");
+        playAud2.classList.remove("vid-on");
+        icon.classList.add("fa-video");
+        playVidToggler2 = false;
     }
 }
-startCamera();
+const stopVideo2 = () => {
+    const videoTrack = streamVideo2.getVideoTracks()[0];
+    const icon = playVid2.querySelector("i");
+    if (videoTrack) {
+        videoTrack.stop();
+        icon.classList.remove("fa-video-slash");
+        playVid2.classList.remove("vid-on");
+        playAud2.classList.remove("vid-on");
+        icon.classList.add("fa-video");
+        playVidToggler2 = false;
+    }
+}
+playVid2.addEventListener("click", () => {
+    if (playVidToggler2) { 
+        stopVideo2();
+    }else {
+        startCamera2();
+    }
+})
+
+let streamAudio2, playAudToggler2 = false;
+const startAudio2 = async () => {
+    const icon = playAud2.querySelector("i");
+    try {
+        streamAudio2 = await navigator.mediaDevices.getUserMedia({    
+            audio: true
+        });
+        audio2.srcObject = streamAudio2;
+        await audio2.play();
+
+        icon.classList.remove("fa-microphone");
+        icon.classList.add("fa-microphone-slash");
+        playAud2.classList.add("on");
+        playAudToggler2 = true;
+
+    }catch (error) {
+        console.error("Error accessing microphone:", error);
+        alert("Camera access denied or unavailable.");
+
+        icon.classList.remove("fa-microphone-slash");
+        playAud2.classList.remove("on");
+        icon.classList.add("fa-microphone");
+        playAudToggler2 = false;
+    }
+}
+const stopAudio2 = () => {
+    const audioTrack = streamAudio2.getAudioTracks()[0];
+    const icon = playAud2.querySelector("i");
+    if (audioTrack) {
+        audioTrack.stop();
+        icon.classList.remove("fa-microphone-slash");
+        playAud2.classList.remove("on");
+        icon.classList.add("fa-microphone");
+        playAudToggler2 = false;
+    }
+}
+playAud2.addEventListener("click", () => {
+    if (playAudToggler2) {
+        stopAudio2();
+    }else {
+        startAudio2();
+    }
+})

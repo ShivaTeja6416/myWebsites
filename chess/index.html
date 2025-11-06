@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chess</title>
+
     <link rel="stylesheet" href="style-left-panel.css" />
     <link rel="stylesheet" href="style-main.css" />
     <link rel="stylesheet" href="style-right-panel.css" />
     <link rel="stylesheet" href="style-shades.css" />
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" 
                 integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" 
                 crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -65,27 +67,55 @@
             <div id="right-wall"></div>  <div id="bottom-wall"></div>
         </div>
         <div class="right-panel">
-            <div class="title">CHESH</div>
+            <div class="title">CHESS</div>
             <div class="right-panel-content">
                 <div class="promotion-modal"></div>
                 <div class="pocket"></div>
                 <div class="contents">
-                    <button class="undo">
-                        <i class="fa-solid fa-rotate-left"></i>
-                    </button>
-                    <div class="counter-box">
-                        <span>Moves count</span>
-                        <div class="counter"></div>
-                    </div>
-                    <button class="redo">
-                        <i class="fa-solid fa-rotate-right"></i>
-                    </button>
-                    <div id="camera-container">
-                        <div id="camera-box-1">
-                            <video id="camera-1" autoplay playsinline disablepictureinpicture controlslist="nodownload nofullscreen noremoteplayback"></video>
+                    <div class="controls">
+                        <button class="undo">
+                            <i class="fa-solid fa-rotate-left"></i>
+                        </button>
+                        <div class="counter-box">
+                            <span>Moves count</span>
+                            <div class="counter"></div>
                         </div>
-                        <div id="camera-box-2">
-                            <video id="camera-2" autoplay playsinline disablepictureinpicture controlslist="nodownload nofullscreen noremoteplayback"></video>
+                        <button class="redo">
+                            <i class="fa-solid fa-rotate-right"></i>
+                        </button>
+                    </div>
+                    <div id="videos-container">
+                        <div id="video-box-1">
+                            <object data="Icons/video-box-1.dxf.svg" type="image/svg+xml"></object>
+                            <div id="video-border-1">
+                                <video id="video-1" autoplay playsinline disablepictureinpicture controlslist="nodownload nofullscreen noremoteplayback"></video>
+                                <audio id="audio-1"></audio>
+                                <div class="video-controls">
+                                    <div class="play-aud" id="play-aud-1">
+                                        <img src="Icons/volume.svg" alt="">
+                                    </div>
+                                    <div class="play-vid" id="play-vid-1">
+                                        <i class="fa-solid fa-video-slash"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="player-name-1">YOU are Beautiful ytv ghvukhbhkj hgvuhhkbkj utiful</div>
+                        </div>
+                        <div id="video-box-2">
+                            <object data="Icons/video-box-2.dxf.svg" type="image/svg+xml"></object>
+                            <div id="video-border-2">
+                                <video id="video-2" autoplay playsinline disablepictureinpicture controlslist="nodownload nofullscreen noremoteplayback"></video>
+                                <audio id="audio-2"></audio>
+                                <div class="video-controls">
+                                    <div class="play-aud" id="play-aud-2">
+                                        <i class="fa-solid fa-microphone"></i>
+                                    </div>
+                                    <div class="play-vid" id="play-vid-2">
+                                        <i class="fa-solid fa-video"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="player-name-2">You</div>
                         </div>
                     </div>
                 </div>
