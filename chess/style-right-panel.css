@@ -1,6 +1,6 @@
 
 .right-panel {
-    position:fixed;
+    position:absolute;
     z-index: 10;
     align-self: center;
     bottom: 0.25vh;
@@ -46,7 +46,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    transition: height 1s ease 0.1s;
+    transition: height 1.3s ease 0.1s;
 }
 .right-panel-content.promotion {
     height: 88vh;
@@ -64,13 +64,17 @@
     gap: 1rem;
     padding: 1rem;
     transform: scale(0.9);
-    transition: transform 2s ease 0.1s, background-color 2s ease 1s;
+    transform-origin: center;
+    will-change: transform;
+    transition: transform 2.3s ease 0.1s, background-color 2s ease 1.3s;
 }
 .right-panel-content.promotion .promotion-modal{
-    background-color: rgb(124, 230, 120);
-    box-shadow: 2px -1px 12px 3px rgb(29, 29, 29), inset 2px -2px 7px 5px rgb(177, 249, 176);
+    background-color: rgb(107, 227, 103);
+    box-shadow: 2px -1px 12px 3px rgb(29, 29, 29), inset 2px -2px 9px 5px rgb(165, 255, 164);
     transform: scale(1);
-    transition: transform 1s ease, background-color 1s ease ;
+    transform-origin: center;
+    filter: brightness(1);
+    transition: transform 1s ease, background-color 1s ease, filter 0.3s ease-in-out ;
 }
 .promotion-piece-boxes {
     height: 10vh;
@@ -157,7 +161,7 @@
     align-self: center;
     height: 6vh;
     max-width: 18vh;
-    background-color: #a2afaf;
+    background-color: #838989;
     display: flex;
     justify-content:space-between;
     align-items: center;
@@ -175,7 +179,7 @@
     height: 6vh;
     min-width: 4vh;
     max-width: 8vh;
-    background-color: #848989;
+    background-color: #aab6b6;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -190,7 +194,7 @@
     position: relative;
     height: 55vh;
     width: 100%;
-    /* background-color: #92989b; */
+    /* background-color: #4b7b92; */
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -200,10 +204,10 @@
     position: absolute;
     height: auto;
     width: 100%;
-    height: 55%;
+    height: 52.8%;
     /* background-color: #324e7b; */
     display: flex;
-    justify-content: center;
+    /* justify-content: center; */
 }
 #video-box-1 {
     top: 0;
@@ -212,12 +216,10 @@
 #video-box-1 object {
     position: absolute;
     top: 0;
-    left: 1.5vh;
-    z-index: 1;
-    width: 92.2%;
-    /* transform: scaleX(1.06); */
-    transition: opacity 0.3s ease-in-out;
-    opacity: 80%;
+    left: 2vh;
+    z-index: 2;
+    height: 100%;
+    transition: filter 0.3s ease-in-out;
 }
 #video-box-2 {
     bottom: 0;
@@ -225,21 +227,19 @@
 }
 #video-box-2 object {
     position: absolute;
-    left: 1.5vh;
     bottom: 0;
+    left: 2vh;
     z-index: 1;
-    width: 96%;
-    /* transform: scaleX(1.06); */
-    transition: opacity 0.3s ease-in-out;
-    opacity: 80%;
+    height: 100%;
+    transition: filter 0.3s ease-in-out;
 }
 
-#video-border-1, #video-border-2 {
+.video-border {
     position: absolute;
     z-index: 5;
-    height: 76%;
-    width: 87%;
-    left: 1.5rem;
+    height: 79.5%;
+    width: 88%;
+    left: 1.6rem;
     background-color: black;
     border-radius: 0.5rem;
     display: flex;
@@ -274,18 +274,21 @@
 .play-vid {
     height: 1.7rem;
     width: 1.9rem;
-    background-color: rgba(255, 255, 255, 0.5);
-    font-size: 1.2rem;
-    color: #001528;
+    background-color: rgba(255, 255, 255, 0.6);
+    font-size: 1rem;
+    color: #000000;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 30%;
-    opacity: 100%;
-    transition: opacity 0.3s ease-in-out;
+    opacity: 90%;
+    transform: scale(1);
+    will-change: transform;
+    transform-origin: center;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 .play-vid.vid-on {
-    color: rgba(155, 0, 0, 0.7);
+    color: rgba(180, 0, 0, 0.7);
     opacity: 20%;
     transition: opacity 0.3s ease-in-out;
 }
@@ -293,39 +296,43 @@
     height: 2rem;
     width: 2rem;
     background-color: rgba(255, 255, 255, 0.6);
-    font-size: 1.2rem;
-    color: #001528;
+    font-size: 1rem;
+    color: #000000;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 50%;
-    opacity: 100%;
-    transition: opacity 0.3s ease-in-out;
+    opacity: 90%;
+    transform: scale(1);
+    will-change: transform;
+    transform-origin: center;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+
 }
 .play-aud.vid-on {
     opacity: 20%;
     transition: opacity 0.3s ease-in-out;
 }
 .play-aud.on {
-    color: rgba(155, 0, 0, 0.7);
+    color: rgba(180, 0, 0, 0.7);
 }
 #video-box-1 .play-aud img {
-    width: 70%;
+    width: 50%;
 }
 
 #player-name-1 {
     position: absolute;
     z-index: 5;
-    bottom: 1.25vh;
-    left: 1.75rem;
+    bottom: 0;
+    left: 2rem;
     height: 2.2rem;
-    width: 13.75rem;
+    width: 14rem;
     /* background-color: aliceblue; */
     text-align: center;
     font-size: 1.25rem;
     line-height: 2.2rem;
     font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    font-weight: 450;
+    font-weight: 500;
     color: #001528;
     overflow-x: scroll;
     overflow-y: hidden;
@@ -335,40 +342,38 @@
 #player-name-2 {
     position: absolute;
     z-index: 5;
-    top: 1.2vh;
-    right: 1.25rem;
+    top: 0;
+    right: 2rem;
     height: 2.2rem;
-    width: 6rem;
+    width: 3.75rem;
     /* background-color: aliceblue; */
     text-align: center;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     line-height: 2.2rem;
+    letter-spacing: 0.1rem;
     font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     font-weight: 500;
     color: #001528;
 }
 
-#video-box-1:hover object, #video-box-2:hover object{
-    opacity: 100%;
+
+.video-box:has(> object:hover, > .video-border:hover, > .player-name:hover) object{
+    filter: brightness(1.25);
+    transition: filter 0.3s ease-in-out;
+}
+.video-box:has(> object:hover, > .video-border:hover, > .player-name:hover) .video-border .play-vid.vid-on, 
+.video-box:has(> object:hover, > .video-border:hover, > .player-name:hover) .video-border .play-aud.vid-on {
+    opacity: 90%;
     transition: opacity 0.3s ease-in-out;
+}
+.video-box .play-vid:hover, .video-box .play-aud:hover{
+    opacity: 100%;
+    transform: scale(1.07);
+    transition: opacity 0.3s ease-in-out, transform 0.2s ease-in-out;
+    cursor: pointer;
 }
 
-#video-box-1:hover .play-vid.vid-on, #video-box-1:hover .play-aud.vid-on, #video-box-2:hover .play-vid.vid-on,#video-box-2:hover .play-aud.vid-on {
-    opacity: 60%;
-    transition: opacity 0.3s ease-in-out;
-}
-#video-box-1 .play-vid:hover, #video-box-1 .play-aud:hover, #video-box-2 .play-vid:hover, #video-box-2 .play-aud:hover{
-    transform: scale(1.07);
-    transition: transform 0.2s ease-in-out;
-    cursor: pointer;
-}
-#video-box-1 .play-vid.vid-on:hover, #video-box-1 .play-aud.vid-on:hover, #video-box-2 .play-vid.vid-on:hover, #video-box-2 .play-aud.vid-on:hover{
-    opacity: 90%;
-    transform: scale(1.07);
-    transition: opacity,transform 0.2s ease-in-out;
-    cursor: pointer;
-}
-#video-box-1 .play-vid:hover i, #video-box-1 .play-aud:hover img, #video-box-2 .play-vid:hover i, #video-box-2 .play-aud:hover i {
+.video-box .play-vid:hover i, .video-box .play-aud:hover img, .video-box .play-aud:hover i {
     cursor: pointer;
 }
 

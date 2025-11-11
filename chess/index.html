@@ -18,6 +18,7 @@
 </head>
 <body>
     <div id="container">
+
         <div class="left-panel">
             <div class="upper">
                 <div class="left-panel-upper-text">
@@ -66,6 +67,7 @@
 
             <div id="right-wall"></div>  <div id="bottom-wall"></div>
         </div>
+
         <div class="right-panel">
             <div class="title">CHESS</div>
             <div class="right-panel-content">
@@ -74,37 +76,41 @@
                 <div class="contents">
                     <div class="controls">
                         <button class="undo">
-                            <i class="fa-solid fa-rotate-left"></i>
-                        </button>
+                            <i class="fa-solid fa-rotate-left"></i></button>
                         <div class="counter-box">
                             <span>Moves count</span>
                             <div class="counter"></div>
                         </div>
                         <button class="redo">
-                            <i class="fa-solid fa-rotate-right"></i>
-                        </button>
+                            <i class="fa-solid fa-rotate-right"></i></button>
                     </div>
                     <div id="videos-container">
-                        <div id="video-box-1">
-                            <object data="Icons/video-box-1.dxf.svg" type="image/svg+xml"></object>
-                            <div id="video-border-1">
-                                <video id="video-1" autoplay playsinline disablepictureinpicture controlslist="nodownload nofullscreen noremoteplayback"></video>
+                        <div id="video-box-1" class="video-box">
+                            <object class="box-cutout" data="Icons/video-box-shape-1.dxf.svg" type="image/svg+xml"></object>
+                            <div id="video-border-1" class="video-border">
+                                <video id="video-1" 
+                                       autoplay playsinline disablepictureinpicture 
+                                       controlslist="nodownload nofullscreen noremoteplayback">
+                                </video>
                                 <audio id="audio-1"></audio>
                                 <div class="video-controls">
-                                    <div class="play-aud" id="play-aud-1">
+                                    <div class="play-aud vid-on" id="play-aud-1">
                                         <img src="Icons/volume.svg" alt="">
                                     </div>
-                                    <div class="play-vid" id="play-vid-1">
+                                    <div class="play-vid vid-on" id="play-vid-1">
                                         <i class="fa-solid fa-video-slash"></i>
                                     </div>
                                 </div>
                             </div>
-                            <div id="player-name-1">YOU are Beautiful ytv ghvukhbhkj hgvuhhkbkj utiful</div>
+                            <div id="player-name-1" class="player-name">YOU are Beautiful ytv ghvukhbhkj hgvuhhkbkj utiful</div>
                         </div>
-                        <div id="video-box-2">
-                            <object data="Icons/video-box-2.dxf.svg" type="image/svg+xml"></object>
-                            <div id="video-border-2">
-                                <video id="video-2" autoplay playsinline disablepictureinpicture controlslist="nodownload nofullscreen noremoteplayback"></video>
+                        <div id="video-box-2" class="video-box">
+                            <object class="box-cutout" data="Icons/video-box-shape-2.dxf.svg" type="image/svg+xml"></object>
+                            <div id="video-border-2" class="video-border">
+                                <video id="video-2" 
+                                       autoplay playsinline disablepictureinpicture 
+                                       controlslist="nodownload nofullscreen noremoteplayback">
+                                </video>
                                 <audio id="audio-2"></audio>
                                 <div class="video-controls">
                                     <div class="play-aud" id="play-aud-2">
@@ -115,7 +121,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="player-name-2">You</div>
+                            <div id="player-name-2" class="player-name">You</div>
                         </div>
                     </div>
                 </div>

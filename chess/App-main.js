@@ -474,7 +474,9 @@ const activateUndo = () => {
     if (endBox.classList.contains("promotion-glow")) {
         remDotsAndShade();
         modal.parentElement.classList.remove("promotion");
-        modal.replaceChildren();
+        setTimeout(() => {
+                modal.replaceChildren();
+            }, 1400);
         selectPiece();
     }else {
         remDotsAndShade();
@@ -562,7 +564,9 @@ const promotionModal = (newBox,piece) => {
             newBox.appendChild(selectedPiece);
             remDotsAndShade();
             modal.parentElement.classList.remove("promotion");
-            modal.replaceChildren();
+            setTimeout(() => {
+                modal.replaceChildren();
+            }, 1400);
             whitesTurn = !whitesTurn;
             if (!whitesTurn) {
                 borderBox.classList.add("black");
@@ -708,6 +712,11 @@ const validBoxes = (box, piece, check) => {
 let streamVideo2, playVidToggler2 = false;
 const startCamera2 = async () => {
     const icon = playVid2.querySelector("i");
+    icon.classList.remove("fa-video");
+    icon.classList.add("fa-video-slash");
+    playVid2.classList.add("vid-on");
+    playAud2.classList.add("vid-on");
+    playVidToggler2 = true;
     try {
         streamVideo2 = await navigator.mediaDevices.getUserMedia({ 
             video: true
@@ -715,12 +724,6 @@ const startCamera2 = async () => {
         
         video2.srcObject = streamVideo2;
         await video2.play();
-
-        icon.classList.remove("fa-video");
-        icon.classList.add("fa-video-slash");
-        playVid2.classList.add("vid-on");
-        playAud2.classList.add("vid-on");
-        playVidToggler2 = true;
 
     }catch (error) {
         console.error("Error accessing camera:", error);
@@ -756,17 +759,16 @@ playVid2.addEventListener("click", () => {
 let streamAudio2, playAudToggler2 = false;
 const startAudio2 = async () => {
     const icon = playAud2.querySelector("i");
+    icon.classList.remove("fa-microphone");
+    icon.classList.add("fa-microphone-slash");
+    playAud2.classList.add("on");
+    playAudToggler2 = true;
     try {
         streamAudio2 = await navigator.mediaDevices.getUserMedia({    
             audio: true
         });
         audio2.srcObject = streamAudio2;
         await audio2.play();
-
-        icon.classList.remove("fa-microphone");
-        icon.classList.add("fa-microphone-slash");
-        playAud2.classList.add("on");
-        playAudToggler2 = true;
 
     }catch (error) {
         console.error("Error accessing microphone:", error);

@@ -1,6 +1,6 @@
 
 .left-panel {
-    position: absolute;
+    position: relative;
     height: 96vh;
     width: 42.6vh;
     left: -1vh;
@@ -41,60 +41,42 @@
     flex-wrap: wrap;
 }
 
-.captured-queen-box {
+.whites-captured-box, .blacks-captured-box {
+    z-index: 8;
     position: absolute;
+    height: 10vh;
+    width: 17vh;
+    display: flex;
+    align-items: baseline;
+}
+.captured-queen-box {
     top: 1.5rem;
     left: 0.8rem;
-    height: 10vh;
-    width: 17vh;
-    display: flex;
-    align-items: baseline;
-    gap: 0.8rem;
+    gap: 0.4rem;
 }
 .captured-rook-box {
-    position: absolute;
     top: 11.5rem;
     left: 1.5rem;
-    height: 10vh;
-    width: 17vh;
-    display: flex;
-    align-items: baseline;
-    gap: 0.8rem;
+    gap: 0.3rem;
 }
 .captured-knight-box {
-    position: absolute;
     top: 7.5rem;
     left: 6.5rem;
-    height: 10vh;
-    width: 17vh;
-    display: flex;
-    align-items: baseline;
-    gap: 0.8rem;
+    gap: 0.3rem;
 }
 .captured-bishop-box {
-    position: absolute;
     top: 3.5rem;
     left: 11.5rem;
-    height: 10vh;
-    width: 17vh;
-    display: flex;
-    align-items: baseline;
-    gap: 0.8rem;
+    gap: 0.1rem;
 }
 .captured-pawn-box {
-    position: absolute;
     top: 14.5rem;
     left: 12rem;
-    height: 10vh;
-    width: 17vh;
-    display: flex;
-    color: linear-gradient(to left, red, black);
-    align-items: baseline;
-    gap: 0.8rem;
+    gap: 0.5rem;
 }
 
 .whites-captured-box .iconW {
-    color: rgb(165, 165, 165);
+    color: rgb(190, 190, 190);
     text-shadow: none;
 }
 .whites-captured-box .iconW.on {
@@ -102,7 +84,7 @@
     text-shadow: 0 0 0.5rem rgba(220, 220, 220, 0.8);
 }
 .blacks-captured-box .iconB {
-    color: rgb(85, 85, 85);
+    color: rgb(70, 70, 70);
     text-shadow: none;
 }
 .blacks-captured-box .iconB.on {
